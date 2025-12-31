@@ -1,0 +1,2 @@
+# smarthome-domain
+Smarthome Domain
