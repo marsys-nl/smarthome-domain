@@ -7,6 +7,7 @@ jvm-toolchain = "21"
 
 kotlin = "2.3.21"
 kotlin-expect = "0.1"
+kotlin-kover = "0.9.8"
 
 ktlint = "1.8.0"
 
@@ -22,6 +23,7 @@ test-balloon-core = { group = "de.infix.testBalloon", name = "testBalloon-framew
 [plugins]
 detekt = { id = "dev.detekt", version.ref = "detekt" }
 
+kotlin-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kotlin-kover" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 
 test-balloon = { id = "de.infix.testBalloon", version.ref = "test-balloon" }
