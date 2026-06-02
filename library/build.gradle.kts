@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.test.balloon)
 }
 
 group = "network.marsys.smarthome"
@@ -12,7 +13,13 @@ kotlin {
 
     jvm()
 
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.kotlin.expect.core)
+            implementation(libs.test.balloon.core)
+        }
+    }
 }
