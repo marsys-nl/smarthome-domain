@@ -1,9 +1,19 @@
 [versions]
-smarthome-domain-version = "2026.01-SNAPSHOT"
+smarthome-domain-version = "2026.06-SNAPSHOT"
 
 jvm-toolchain = "21"
 
 kotlin = "2.3.21"
+kotlin-expect = "0.1"
+
+test-balloon = "1.0.0-K2.4.0-Beta2"
+
+[libraries]
+kotlin-expect-core = { group = "dev.nmarsman.expect", name = "kotlin-expect-core", version.ref = "kotlin-expect" }
+
+test-balloon-core = { group = "de.infix.testBalloon", name = "testBalloon-framework-core", version.ref = "test-balloon" }
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+
+test-balloon = { id = "de.infix.testBalloon", version.ref = "test-balloon" }
