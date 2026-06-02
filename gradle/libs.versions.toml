@@ -8,10 +8,14 @@ jvm-toolchain = "21"
 kotlin = "2.3.21"
 kotlin-expect = "0.1"
 
+ktlint = "1.8.0"
+
 test-balloon = "1.0.0-K2.4.0-Beta2"
 
 [libraries]
 kotlin-expect-core = { group = "dev.nmarsman.expect", name = "kotlin-expect-core", version.ref = "kotlin-expect" }
+
+ktlint = { group = "com.pinterest.ktlint", name = "ktlint-cli", version.ref = "ktlint" }
 
 test-balloon-core = { group = "de.infix.testBalloon", name = "testBalloon-framework-core", version.ref = "test-balloon" }
 
