@@ -11,7 +11,7 @@ kotlin-kover = "0.9.8"
 
 ktlint = "1.8.0"
 
-maven-publish = "0.35.0"
+maven-publish = "0.36.0"
 
 test-balloon = "1.0.0-K2.4.0-Beta2"
 
