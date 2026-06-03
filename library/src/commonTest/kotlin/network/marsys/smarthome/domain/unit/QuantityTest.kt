@@ -93,6 +93,30 @@ val quantityTest by testSuite(
                 .get(Quantity<*>::value)
                 .isEqualTo(0.0)
         }
+
+        test(name = "Minutes convert to seconds") {
+            expectThat(2.minutes into Second)
+                .get(Quantity<*>::value)
+                .isEqualTo(120.0)
+        }
+
+        test(name = "Hours convert to seconds") {
+            expectThat(1.hours into Second)
+                .get(Quantity<*>::value)
+                .isEqualTo(3_600.0)
+        }
+
+        test(name = "Days convert to hours") {
+            expectThat(1.days into Hour)
+                .get(Quantity<*>::value)
+                .isEqualTo(24.0)
+        }
+
+        test(name = "Seconds convert to minutes") {
+            expectThat(90.seconds into Minute)
+                .get(Quantity<*>::value)
+                .isEqualTo(1.5)
+        }
     }
 
     testSuite(name = "Arithmetic within a dimension") {
@@ -213,6 +237,31 @@ val quantityTest by testSuite(
         test(name = "An explicitly supplied prefix overrides automatic selection") {
             expectThat(1_500.watts.format(MetricPrefix.MEGA))
                 .isEqualTo("0.0015 MW")
+        }
+
+        test(name = "A large current is scaled to a readable prefix") {
+            expectThat(1_500.amperes.toString())
+                .isEqualTo("1.5 kA")
+        }
+
+        test(name = "A voltage within the base range keeps the base unit") {
+            expectThat(230.volts.toString())
+                .isEqualTo("230 V")
+        }
+
+        test(name = "A large voltage is scaled to a readable prefix") {
+            expectThat(11_000.volts.toString())
+                .isEqualTo("11 kV")
+        }
+
+        test(name = "A duration is rendered with its unit and never rescaled") {
+            expectThat(90.seconds.toString())
+                .isEqualTo("90 s")
+        }
+
+        test(name = "A duration in minutes is rendered with its unit") {
+            expectThat(5.minutes.toString())
+                .isEqualTo("5 min")
         }
     }
 }
