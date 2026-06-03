@@ -6,8 +6,9 @@ package network.marsys.smarthome.domain.unit
 sealed class Energy(
     override val symbol: String,
     private val joulesPerUnit: Double,
-    override val prefixes: List<MetricPrefix> = emptyList(),
 ) : Unit<Dimension.Energy> {
+    final override val scale: Scale<Dimension.Energy> = MetricScale()
+
     final override fun toBaseUnit(value: Double): Double =
         value * joulesPerUnit
 
@@ -21,12 +22,6 @@ sealed class Energy(
 data object Joule : Energy(
     symbol = "J",
     joulesPerUnit = 1.0,
-    prefixes = listOf(
-        MetricPrefix.NONE,
-        MetricPrefix.KILO,
-        MetricPrefix.MEGA,
-        MetricPrefix.GIGA,
-    ),
 )
 
 /**
@@ -35,12 +30,6 @@ data object Joule : Energy(
 data object WattSecond : Energy(
     symbol = "W·s",
     joulesPerUnit = 1.0,
-    prefixes = listOf(
-        MetricPrefix.NONE,
-        MetricPrefix.KILO,
-        MetricPrefix.MEGA,
-        MetricPrefix.GIGA,
-    ),
 )
 
 /**
@@ -49,12 +38,6 @@ data object WattSecond : Energy(
 data object WattMinute : Energy(
     symbol = "W·min",
     joulesPerUnit = 60.0,
-    prefixes = listOf(
-        MetricPrefix.NONE,
-        MetricPrefix.KILO,
-        MetricPrefix.MEGA,
-        MetricPrefix.GIGA,
-    ),
 )
 
 /**
@@ -63,12 +46,6 @@ data object WattMinute : Energy(
 data object WattHour : Energy(
     symbol = "Wh",
     joulesPerUnit = 3_600.0,
-    prefixes = listOf(
-        MetricPrefix.NONE,
-        MetricPrefix.KILO,
-        MetricPrefix.MEGA,
-        MetricPrefix.GIGA,
-    ),
 )
 
 val Number.joules: Quantity<Dimension.Energy> get() =

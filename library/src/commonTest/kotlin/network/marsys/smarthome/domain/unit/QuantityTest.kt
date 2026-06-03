@@ -234,8 +234,9 @@ val quantityTest by testSuite(
                 .isEqualTo("2 kW")
         }
 
-        test(name = "An explicitly supplied prefix overrides automatic selection") {
-            expectThat(1_500.watts.format(MetricPrefix.MEGA))
+        test(name = "An explicitly supplied scale overrides the unit's default") {
+            expectThat(1_500.watts)
+                .get { format(MetricScale(MetricPrefix.MEGA)) }
                 .isEqualTo("0.0015 MW")
         }
 
@@ -254,12 +255,18 @@ val quantityTest by testSuite(
                 .isEqualTo("11 kV")
         }
 
-        test(name = "A duration is rendered with its unit and never rescaled") {
+        test(name = "A duration is rendered as a composite by default") {
             expectThat(90.seconds.toString())
+                .isEqualTo("1 min 30 s")
+        }
+
+        test(name = "A duration can be printed as recorded with a plain scale") {
+            expectThat(90.seconds)
+                .get { format(PlainScale()) }
                 .isEqualTo("90 s")
         }
 
-        test(name = "A duration in minutes is rendered with its unit") {
+        test(name = "A whole-minute duration renders without smaller components") {
             expectThat(5.minutes.toString())
                 .isEqualTo("5 min")
         }

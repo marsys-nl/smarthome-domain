@@ -7,12 +7,7 @@ sealed class ElectricCurrent(
     override val symbol: String,
     private val amperesPerUnit: Double,
 ) : Unit<Dimension.ElectricCurrent> {
-    final override val prefixes: List<MetricPrefix> = listOf(
-        MetricPrefix.NONE,
-        MetricPrefix.KILO,
-        MetricPrefix.MEGA,
-        MetricPrefix.GIGA,
-    )
+    final override val scale: Scale<Dimension.ElectricCurrent> = MetricScale()
 
     final override fun toBaseUnit(value: Double): Double =
         value * amperesPerUnit

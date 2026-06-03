@@ -22,12 +22,10 @@ interface Unit<D : Dimension> {
     val spaceBetweenMagnitude: Boolean get() = true
 
     /**
-     * The decimal [MetricPrefix]es that are sensible to display values of this unit with.
-     *
-     * When empty (the default) no prefixing takes place and the [symbol] is used as-is,
-     * which is the case for e.g. temperatures.
+     * The [Scale] strategy used to render quantities expressed in this unit, e.g. metric
+     * prefixes or a composite breakdown. Defaults to a plain value-and-symbol rendering.
      */
-    val prefixes: List<MetricPrefix> get() = emptyList()
+    val scale: Scale<D> get() = PlainScale()
 
     /**
      * Converts [value], expressed in this unit, to the dimension's base unit.
@@ -45,32 +43,4 @@ interface Unit<D : Dimension> {
      * e.g. to round temperatures to the nearest 0.5°C.
      */
     fun round(value: Double): Double = value
-
-    /**
-     * Formats [value] as a string, scaling it by [prefix] and prepending the prefix symbol
-     * to the unit symbol, e.g. formatting `1.5` watts with [MetricPrefix.KILO] yields
-     * `"1.5 kW"`. The bare value is rendered when [prefix] is [MetricPrefix.NONE].
-     */
-    fun format(
-        value: Double,
-        prefix: MetricPrefix = MetricPrefix.NONE,
-    ): String {
-        val scaled = value / prefix.factor
-
-        return if (scaled % 1.0 == 0.0) {
-            "${scaled.toInt()}${formatSymbol(prefix)}"
-        } else {
-            "$scaled${formatSymbol(prefix)}"
-        }
-    }
-
-    private fun formatSymbol(prefix: MetricPrefix): String {
-        val prefixedSymbol = "${prefix.symbol}$symbol"
-
-        return if (spaceBetweenMagnitude && prefixedSymbol.isNotBlank()) {
-            " $prefixedSymbol"
-        } else {
-            prefixedSymbol
-        }
-    }
 }

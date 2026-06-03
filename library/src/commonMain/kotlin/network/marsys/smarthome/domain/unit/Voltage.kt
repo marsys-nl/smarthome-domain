@@ -8,12 +8,7 @@ sealed class Voltage(
     override val symbol: String,
     private val voltsPerUnit: Double,
 ) : Unit<Dimension.Voltage> {
-    final override val prefixes: List<MetricPrefix> = listOf(
-        MetricPrefix.NONE,
-        MetricPrefix.KILO,
-        MetricPrefix.MEGA,
-        MetricPrefix.GIGA,
-    )
+    final override val scale: Scale<Dimension.Voltage> = MetricScale()
 
     final override fun toBaseUnit(value: Double): Double =
         value * voltsPerUnit

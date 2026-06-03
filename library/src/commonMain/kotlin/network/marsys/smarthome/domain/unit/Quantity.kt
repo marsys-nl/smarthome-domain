@@ -44,14 +44,14 @@ data class Quantity<D : Dimension>(
     override fun toString(): String = format()
 
     /**
-     * Formats this measurement as a string, rounding the value and appending the unit's symbol, e.g. `230 W`.
+     * Formats this measurement as a string using [scale], which defaults to the unit's own
+     * [Unit.scale] (metric prefixes, a composite breakdown, etc.).
      *
-     * By default, the most readable [MetricPrefix] from the unit's [Unit.prefixes]
-     * is chosen automatically (so `1500 W` renders as `"1.5 kW"`); pass [prefix] to force a
-     * specific one. Units without acceptable prefixes, such as temperatures, are never scaled.
+     * Pass a different scale to override the rendering, e.g. [PlainScale] to print the value
+     * as recorded or [MetricScale] to force a specific prefix.
      */
-    fun format(prefix: MetricPrefix? = null): String = with(round()) {
-        unit.format(value, prefix ?: unit.prefixes.preferredFor(value))
+    fun format(scale: Scale<D> = unit.scale): String = with(round()) {
+        scale.format(value, unit)
     }
 
     /**
