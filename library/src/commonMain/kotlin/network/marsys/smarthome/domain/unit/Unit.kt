@@ -22,6 +22,14 @@ interface Unit<D : Dimension> {
     val spaceBetweenMagnitude: Boolean get() = true
 
     /**
+     * The decimal [MetricPrefix]es that are sensible to display values of this unit with.
+     *
+     * When empty (the default) no prefixing takes place and the [symbol] is used as-is,
+     * which is the case for e.g. temperatures.
+     */
+    val prefixes: List<MetricPrefix> get() = emptyList()
+
+    /**
      * Converts [value], expressed in this unit, to the dimension's base unit.
      */
     fun toBaseUnit(value: Double): Double
@@ -39,21 +47,30 @@ interface Unit<D : Dimension> {
     fun round(value: Double): Double = value
 
     /**
-     * Formats [value] as a string with the unit symbol, e.g. `"1.5 kWh"` or `"20°C"`
-     * based upon the symbol, if the value is a whole number and if a space between
-     * magnitude is needed.
+     * Formats [value] as a string, scaling it by [prefix] and prepending the prefix symbol
+     * to the unit symbol, e.g. formatting `1.5` watts with [MetricPrefix.KILO] yields
+     * `"1.5 kW"`. The bare value is rendered when [prefix] is [MetricPrefix.NONE].
      */
-    fun format(value: Double): String =
-        if (value % 1.0 == 0.0) {
-            "${value.toInt()}${formatSymbol()}"
-        } else {
-            "${value}${formatSymbol()}"
-        }
+    fun format(
+        value: Double,
+        prefix: MetricPrefix = MetricPrefix.NONE,
+    ): String {
+        val scaled = value / prefix.factor
 
-    private fun formatSymbol(): String =
-        if (spaceBetweenMagnitude && symbol.isNotBlank()) {
-            " $symbol"
+        return if (scaled % 1.0 == 0.0) {
+            "${scaled.toInt()}${formatSymbol(prefix)}"
         } else {
-            symbol
+            "$scaled${formatSymbol(prefix)}"
         }
+    }
+
+    private fun formatSymbol(prefix: MetricPrefix): String {
+        val prefixedSymbol = "${prefix.symbol}$symbol"
+
+        return if (spaceBetweenMagnitude && prefixedSymbol.isNotBlank()) {
+            " $prefixedSymbol"
+        } else {
+            prefixedSymbol
+        }
+    }
 }

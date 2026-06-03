@@ -6,6 +6,7 @@ package network.marsys.smarthome.domain.unit
 sealed class Power(
     override val symbol: String,
     private val wattsPerUnit: Double,
+    override val prefixes: List<MetricPrefix> = emptyList(),
 ) : Unit<Dimension.Power> {
     final override fun toBaseUnit(value: Double): Double =
         value * wattsPerUnit
@@ -20,6 +21,12 @@ sealed class Power(
 data object Watt : Power(
     symbol = "W",
     wattsPerUnit = 1.0,
+    prefixes = listOf(
+        MetricPrefix.NONE,
+        MetricPrefix.KILO,
+        MetricPrefix.MEGA,
+        MetricPrefix.GIGA,
+    ),
 )
 
 /**

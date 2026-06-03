@@ -163,6 +163,41 @@ val quantityTest by testSuite(
                 .get(Quantity<*>::toString)
                 .isEqualTo("0.5")
         }
+
+        test(name = "A large power is scaled up to a readable prefix") {
+            expectThat(1_500.watts.toString())
+                .isEqualTo("1.5 kW")
+        }
+
+        test(name = "A whole scaled value drops its decimals") {
+            expectThat(1_000.watts.toString())
+                .isEqualTo("1 kW")
+        }
+
+        test(name = "A value within the base range keeps the base unit") {
+            expectThat(750.watts.toString())
+                .isEqualTo("750 W")
+        }
+
+        test(name = "Energy in watt-hours is scaled to kilowatt-hours") {
+            expectThat(2_500.wattHours.toString())
+                .isEqualTo("2.5 kWh")
+        }
+
+        test(name = "A temperature is never scaled, as it has no acceptable prefixes") {
+            expectThat(1_500.kelvin.toString())
+                .isEqualTo("1500K")
+        }
+
+        test(name = "An already-prefixed convenience unit is left as-is") {
+            expectThat(2.kilowatts.toString())
+                .isEqualTo("2 kW")
+        }
+
+        test(name = "An explicitly supplied prefix overrides automatic selection") {
+            expectThat(1_500.watts.format(MetricPrefix.MEGA))
+                .isEqualTo("0.0015 MW")
+        }
     }
 }
 
