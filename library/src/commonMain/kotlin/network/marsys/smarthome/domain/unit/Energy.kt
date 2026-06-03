@@ -30,6 +30,34 @@ data object Joule : Energy(
 )
 
 /**
+ * An energy expressed in watt-seconds. One watt-second equals exactly one [Joule].
+ */
+data object WattSecond : Energy(
+    symbol = "W·s",
+    joulesPerUnit = 1.0,
+    prefixes = listOf(
+        MetricPrefix.NONE,
+        MetricPrefix.KILO,
+        MetricPrefix.MEGA,
+        MetricPrefix.GIGA,
+    ),
+)
+
+/**
+ * An energy expressed in watt-minutes. One watt-minute equals 60 [Joule]s.
+ */
+data object WattMinute : Energy(
+    symbol = "W·min",
+    joulesPerUnit = 60.0,
+    prefixes = listOf(
+        MetricPrefix.NONE,
+        MetricPrefix.KILO,
+        MetricPrefix.MEGA,
+        MetricPrefix.GIGA,
+    ),
+)
+
+/**
  * An energy expressed in watt-hours, a common unit of energy in the context of electricity.
  */
 data object WattHour : Energy(
@@ -43,20 +71,17 @@ data object WattHour : Energy(
     ),
 )
 
-/**
- * An energy expressed in kilowatt-hours, a common unit of energy in the context of electricity,
- * especially for household energy consumption.
- */
-data object KilowattHour : Energy(
-    symbol = "kWh",
-    joulesPerUnit = 3_600_000.0,
-)
-
 val Number.joules: Quantity<Dimension.Energy> get() =
-    measuredIn(Joule)
+    measuredIn(unit = Joule)
+
+val Number.wattSeconds: Quantity<Dimension.Energy> get() =
+    measuredIn(unit = WattSecond)
+
+val Number.wattMinutes: Quantity<Dimension.Energy> get() =
+    measuredIn(unit = WattMinute)
 
 val Number.wattHours: Quantity<Dimension.Energy> get() =
-    measuredIn(WattHour)
+    measuredIn(unit = WattHour)
 
 val Number.kilowattHours: Quantity<Dimension.Energy> get() =
-    measuredIn(KilowattHour)
+    measuredIn(unit = WattHour, prefix = MetricPrefix.KILO)

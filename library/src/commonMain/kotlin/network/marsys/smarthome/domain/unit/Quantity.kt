@@ -65,5 +65,10 @@ data class Quantity<D : Dimension>(
 /**
  * Creates a [Quantity] from this number expressed in [unit], e.g. `230 measuredIn PowerUnit.Watt`.
  */
-internal infix fun <D : Dimension> Number.measuredIn(unit: Unit<D>): Quantity<D> =
-    Quantity(value = toDouble(), unit = unit)
+internal fun <D : Dimension> Number.measuredIn(
+    unit: Unit<D>,
+    prefix: MetricPrefix = MetricPrefix.NONE,
+): Quantity<D> = Quantity(
+    value = toDouble() * prefix.factor,
+    unit = unit,
+)

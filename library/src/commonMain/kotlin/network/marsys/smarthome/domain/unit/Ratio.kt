@@ -36,7 +36,7 @@ data object Fraction : Ratio(
 )
 
 val Number.percent: Quantity<Dimension.Ratio> get() =
-    measuredIn(Percent)
+    measuredIn(unit = Percent)
 
 val Number.fraction: Quantity<Dimension.Ratio> get() =
-    measuredIn(Fraction)
+    measuredIn(unit = Fraction)

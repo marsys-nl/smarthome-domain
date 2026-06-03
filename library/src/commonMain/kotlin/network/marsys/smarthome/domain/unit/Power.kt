@@ -29,17 +29,8 @@ data object Watt : Power(
     ),
 )
 
-/**
- * A power expressed in kilowatts, a common unit of power in the context of electricity,
- * especially for household energy consumption.
- */
-data object Kilowatt : Power(
-    symbol = "kW",
-    wattsPerUnit = 1_000.0,
-)
-
 val Number.watts: Quantity<Dimension.Power> get() =
-    measuredIn(Watt)
+    measuredIn(unit = Watt)
 
 val Number.kilowatts: Quantity<Dimension.Power> get() =
-    measuredIn(Kilowatt)
+    measuredIn(unit = Watt, prefix = MetricPrefix.KILO)

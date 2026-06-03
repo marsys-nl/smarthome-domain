@@ -1,31 +1,41 @@
 package network.marsys.smarthome.domain.unit
 
 import de.infix.testBalloon.framework.core.testSuite
-import dev.nmarsman.expect.api.Assertion
 import dev.nmarsman.expect.api.expectThat
 import dev.nmarsman.expect.assertions.isEqualTo
-import kotlin.math.absoluteValue
 
 val quantityTest by testSuite(
     name = "Quantity tests",
 ) {
     testSuite(name = "Building quantities") {
         test(name = "A builder keeps the original value") {
-            expectThat(1.5.kilowattHours)
+            expectThat(1.5.wattHours)
                 .get(Quantity<*>::value)
                 .isEqualTo(1.5)
         }
 
         test(name = "A builder keeps the chosen unit") {
-            expectThat(1.5.kilowattHours)
+            expectThat(1.5.wattHours)
                 .get(Quantity<*>::unit)
-                .isEqualTo(KilowattHour)
+                .isEqualTo(WattHour)
         }
 
         test(name = "measuredIn builds a quantity from a number and unit") {
-            expectThat(230 measuredIn Watt)
+            expectThat(230.measuredIn(unit = Watt))
                 .get(Quantity<*>::value)
                 .isEqualTo(230.0)
+        }
+
+        test(name = "The kilowatts builder records the equivalent in watts") {
+            expectThat(2.kilowatts)
+                .get(Quantity<*>::value)
+                .isEqualTo(2_000.0)
+        }
+
+        test(name = "The kilowatt-hours builder records the equivalent in watt-hours") {
+            expectThat(1.5.kilowattHours)
+                .get(Quantity<*>::value)
+                .isEqualTo(1_500.0)
         }
     }
 
@@ -42,10 +52,16 @@ val quantityTest by testSuite(
                 .isEqualTo(5_400_000.0)
         }
 
-        test(name = "Watts convert to kilowatts") {
-            expectThat(1_500.watts into Kilowatt)
+        test(name = "Watt-seconds convert to joules one to one") {
+            expectThat(5.wattSeconds into Joule)
                 .get(Quantity<*>::value)
-                .isEqualTo(1.5)
+                .isEqualTo(5.0)
+        }
+
+        test(name = "Watt-minutes convert to joules") {
+            expectThat(2.wattMinutes into Joule)
+                .get(Quantity<*>::value)
+                .isEqualTo(120.0)
         }
 
         test(name = "Fractions convert to percentages") {
@@ -81,32 +97,32 @@ val quantityTest by testSuite(
 
     testSuite(name = "Arithmetic within a dimension") {
         test(name = "Adding keeps the left-hand unit") {
-            expectThat(1.kilowattHours + 500.wattHours)
+            expectThat(1.wattHours + 3_600.joules)
                 .get(Quantity<*>::unit)
-                .isEqualTo(KilowattHour)
+                .isEqualTo(WattHour)
         }
 
-        test(name = "Adding sums the physical magnitudes") {
-            expectThat(1.kilowattHours + 500.wattHours)
+        test(name = "Adding converts and sums the physical magnitudes") {
+            expectThat(1.wattHours + 3_600.joules)
                 .get(Quantity<*>::value)
-                .isEqualTo(1.5)
+                .isEqualTo(2.0)
         }
 
-        test(name = "Subtracting sums the physical magnitudes") {
-            expectThat(2.kilowattHours - 500.wattHours)
+        test(name = "Subtracting converts and sums the physical magnitudes") {
+            expectThat(2.wattHours - 3_600.joules)
                 .get(Quantity<*>::value)
-                .isEqualTo(1.5)
+                .isEqualTo(1.0)
         }
     }
 
     testSuite(name = "Comparing across units") {
         test(name = "A larger quantity compares as greater") {
-            expectThat(1.kilowattHours > 999.wattHours)
+            expectThat(1.wattHours > 3_000.joules)
                 .isEqualTo(true)
         }
 
         test(name = "Physically equal quantities compare as equal") {
-            expectThat(1.kilowattHours.compareTo(1_000.wattHours))
+            expectThat(1.wattHours.compareTo(3_600.joules))
                 .isEqualTo(0)
         }
     }
@@ -119,7 +135,7 @@ val quantityTest by testSuite(
         }
 
         test(name = "Equal value and unit are equal") {
-            expectThat(1.5.kilowattHours == 1.5.kilowattHours)
+            expectThat(1.5.wattHours == 1.5.wattHours)
                 .isEqualTo(true)
         }
 
@@ -159,7 +175,7 @@ val quantityTest by testSuite(
         }
 
         test(name = "A spaced unit with a blank symbol is rendered as the bare value") {
-            expectThat(0.5 measuredIn BlankSymbolUnit)
+            expectThat(0.5.measuredIn(unit = BlankSymbolUnit))
                 .get(Quantity<*>::toString)
                 .isEqualTo("0.5")
         }
@@ -189,7 +205,7 @@ val quantityTest by testSuite(
                 .isEqualTo("1500K")
         }
 
-        test(name = "An already-prefixed convenience unit is left as-is") {
+        test(name = "The kilowatts builder renders back through automatic prefixing") {
             expectThat(2.kilowatts.toString())
                 .isEqualTo("2 kW")
         }

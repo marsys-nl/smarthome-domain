@@ -54,13 +54,13 @@ data object Fahrenheit : Temperature(
 )
 
 val Number.kelvin: Quantity<Dimension.Temperature> get() =
-    measuredIn(Kelvin)
+    measuredIn(unit = Kelvin)
 
 val Number.celsius: Quantity<Dimension.Temperature> get() =
-    measuredIn(Celsius)
+    measuredIn(unit = Celsius)
 
 val Number.fahrenheit: Quantity<Dimension.Temperature> get() =
-    measuredIn(Fahrenheit)
+    measuredIn(unit = Fahrenheit)
 
 private const val CELSIUS_OFFSET_IN_KELVIN = 273.15
 private const val CELSIUS_ROUNDING_OFFSET = 2.0
