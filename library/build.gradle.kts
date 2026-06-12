@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.test.balloon)
 }
@@ -19,6 +20,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(libs.kotlinx.serialization.json)
+        }
+
+        commonTest.dependencies {
             implementation(libs.kotlin.expect.core)
             implementation(libs.test.balloon.core)
         }
