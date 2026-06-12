@@ -8,6 +8,7 @@ jvm-toolchain = "21"
 kotlin = "2.4.0"
 kotlin-expect = "0.2-SNAPSHOT"
 kotlin-kover = "0.9.8"
+kotlinx-serialization = "1.11.0"
 
 ktlint = "1.8.0"
 
@@ -17,6 +18,7 @@ test-balloon = "1.0.0-K2.4.0"
 
 [libraries]
 kotlin-expect-core = { group = "dev.nmarsman.expect", name = "kotlin-expect-core", version.ref = "kotlin-expect" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 ktlint = { group = "com.pinterest.ktlint", name = "ktlint-cli", version.ref = "ktlint" }
 
@@ -27,6 +29,7 @@ detekt = { id = "dev.detekt", version.ref = "detekt" }
 
 kotlin-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kotlin-kover" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
 

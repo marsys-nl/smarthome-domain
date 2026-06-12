@@ -1,8 +1,10 @@
 package network.marsys.smarthome.domain
 
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline
 
 @JvmInline
+@Serializable
 value class EntityIdentifier(val value: String) {
     init {
         require(value.isNotBlank()) {
