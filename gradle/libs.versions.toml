@@ -12,7 +12,7 @@ kotlinx-serialization = "1.11.0"
 
 ktlint = "1.8.0"
 
-maven-publish = "0.36.0"
+maven-publish = "0.37.0"
 
 test-balloon = "1.0.1-K2.4.0"
 
