@@ -1,7 +1,7 @@
 [versions]
 smarthome-domain = "2026.06-SNAPSHOT"
 
-detekt = "2.0.0-alpha.3"
+detekt = "2.0.0-alpha.5"
 
 jvm-toolchain = "21"
 
