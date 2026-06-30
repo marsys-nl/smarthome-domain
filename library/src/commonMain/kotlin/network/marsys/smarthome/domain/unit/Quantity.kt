@@ -26,11 +26,17 @@ data class Quantity<D : Dimension>(
     operator fun plus(other: Quantity<D>): Quantity<D> =
         Quantity(value = value + other.into(unit).value, unit = unit)
 
+    operator fun plus(other: Number): Quantity<D> =
+        plus(Quantity(other.toDouble(), unit))
+
     /**
      * Subtracts [other] from this measurement, keeping this measurement's [unit].
      */
     operator fun minus(other: Quantity<D>): Quantity<D> =
         Quantity(value = value - other.into(unit).value, unit = unit)
+
+    operator fun minus(other: Number): Quantity<D> =
+        minus(Quantity(other.toDouble(), unit))
 
     /**
      * Compares this measurement to [other] by comparing their values in the dimension's canonical base unit.

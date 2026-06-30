@@ -132,10 +132,22 @@ val quantityTest by testSuite(
                 .isEqualTo(2.0)
         }
 
+        test(name = "Adding a number to the quantity correctly adds") {
+            expectThat(1.wattHours + 100)
+                .get(Quantity<*>::value)
+                .isEqualTo(101.0)
+        }
+
         test(name = "Subtracting converts and sums the physical magnitudes") {
             expectThat(2.wattHours - 3_600.joules)
                 .get(Quantity<*>::value)
                 .isEqualTo(1.0)
+        }
+
+        test(name = "Subtracting a number to the quantity correctly subtracts") {
+            expectThat(200.wattHours - 100)
+                .get(Quantity<*>::value)
+                .isEqualTo(100.0)
         }
     }
 
