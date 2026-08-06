@@ -1,4 +1,4 @@
-package network.marsys.smarthome.domain
+package network.marsys.smarthome.domain.identifiers
 
 import de.infix.testBalloon.framework.core.testSuite
 import dev.nmarsman.expect.api.expectThat
@@ -115,5 +115,10 @@ val entityIdentifierTest by testSuite(
     test(name = "Initialising entity identifier with a very long value fails") {
         expectThrows<IllegalArgumentException> { EntityIdentifier("a".repeat(1000)) }
             .hasMessage("Entity identifier cannot be longer than 255 characters.")
+    }
+
+    test(name = "Casting entity identifier to a string actually outputs the identifier as-is") {
+        expectThat(EntityIdentifier("test.entity").toString())
+            .isEqualTo("test.entity")
     }
 }
