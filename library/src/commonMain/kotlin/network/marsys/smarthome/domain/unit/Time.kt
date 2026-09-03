@@ -10,7 +10,7 @@ sealed class Time(
     override val symbol: String,
     private val secondsPerUnit: Double,
 ) : Unit<Dimension.Time> {
-    final override val scale: Scale<Dimension.Time>
+    override val scale: Scale<Dimension.Time>
         get() = CompositeScale(units, largestUnit = Day, smallestUnit = Second)
 
     final override fun toBaseUnit(value: Double): Double =
@@ -20,7 +20,18 @@ sealed class Time(
         value / secondsPerUnit
 }
 
-private val units = listOf(Second, Minute, Hour, Day)
+private val units = listOf(Millisecond, Second, Minute, Hour, Day)
+
+/**
+ * A duration expressed in milliseconds. One millisecond equals 1/1,000 [Second]s.
+ */
+data object Millisecond : Time(
+    symbol = "ms",
+    secondsPerUnit = 1.0 / 1_000.0,
+) {
+    override val scale: Scale<Dimension.Time>
+        get() = CompositeScale(units, largestUnit = Day, smallestUnit = Millisecond)
+}
 
 /**
  * A duration expressed in seconds, the SI unit of time.
@@ -53,6 +64,9 @@ data object Day : Time(
     symbol = "d",
     secondsPerUnit = 86_400.0,
 )
+
+val Number.milliseconds: Quantity<Dimension.Time> get() =
+    measuredIn(Millisecond)
 
 val Number.seconds: Quantity<Dimension.Time> get() =
     measuredIn(Second)

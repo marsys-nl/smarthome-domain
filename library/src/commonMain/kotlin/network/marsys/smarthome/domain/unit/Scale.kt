@@ -58,6 +58,37 @@ class MetricScale<D : Dimension>(
 }
 
 /**
+ * Scales a value with the most readable binary [BinaryPrefix] from [prefixes], e.g. rendering
+ * `1500` bytes as `"1.5 kB"`. Construct with a single prefix to force it.
+ */
+class BinaryScale<D : Dimension>(
+    private val prefixes: List<BinaryPrefix> = defaultPrefixes,
+) : Scale<D> {
+    constructor(prefix: BinaryPrefix) : this(listOf(prefix))
+
+    override fun format(value: Double, unit: Unit<D>): String {
+        val prefix = prefixes.preferredFor(value)
+
+        return formatMagnitude(
+            value = value / prefix.factor,
+            symbol = "${prefix.symbol}${unit.symbol}",
+            spaceBetweenMagnitude = unit.spaceBetweenMagnitude,
+        )
+    }
+
+    companion object {
+        internal val defaultPrefixes: List<BinaryPrefix> = listOf(
+            BinaryPrefix.NONE,
+            BinaryPrefix.KIBI,
+            BinaryPrefix.MEBI,
+            BinaryPrefix.GIBI,
+            BinaryPrefix.TEBI,
+            BinaryPrefix.PEBI,
+        )
+    }
+}
+
+/**
  * Breaks a value down across a family of [units], rendering it as a composite such as
  * `"1 h 23 min 45 s"`.
  *

@@ -282,6 +282,16 @@ val quantityTest by testSuite(
             expectThat(5.minutes.toString())
                 .isEqualTo("5 min")
         }
+
+        test(name = "Some value of milliseconds is displayed properly") {
+            expectThat(17.milliseconds.toString())
+                .isEqualTo("17 ms")
+        }
+
+        test(name = "Binary prefixed quantity is formatted correctly") {
+            expectThat(5.kibibytes.toString())
+                .isEqualTo("5 KiB")
+        }
     }
 }
 

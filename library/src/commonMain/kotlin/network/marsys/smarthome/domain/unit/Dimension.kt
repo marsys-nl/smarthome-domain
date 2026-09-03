@@ -9,6 +9,7 @@ package network.marsys.smarthome.domain.unit
  * being mixed at compile time (e.g. you cannot add an energy to a temperature).
  */
 sealed interface Dimension {
+    interface DigitalInformation : Dimension
     interface ElectricCurrent : Dimension
     interface Energy : Dimension
     interface Ratio : Dimension
