@@ -7,7 +7,7 @@ jvm-toolchain = "21"
 
 kotlin = "2.4.20"
 kotlin-expect = "0.3-SNAPSHOT"
-kotlin-kover = "0.9.9"
+kotlin-kover = "0.9.11"
 kotlinx-serialization = "1.11.0"
 
 ktlint = "1.8.0"
