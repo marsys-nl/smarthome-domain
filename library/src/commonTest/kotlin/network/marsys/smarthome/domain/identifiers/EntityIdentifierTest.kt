@@ -51,32 +51,32 @@ val entityIdentifierTest by testSuite(
 
     test(name = "Initializing entity identifier starting with a dot fails") {
         expectThrows<IllegalArgumentException> { EntityIdentifier(".a") }
-            .hasMessage("Entity identifier must start and end with a letter.")
+            .hasMessage("Entity identifier must start with a letter.")
     }
 
     test(name = "Initializing entity identifier ending with a dot fails") {
         expectThrows<IllegalArgumentException> { EntityIdentifier("a.") }
-            .hasMessage("Entity identifier must start and end with a letter.")
+            .hasMessage("Entity identifier must end with a letter or digit.")
     }
 
     test(name = "Initializing entity identifier starting with a dot fails") {
         expectThrows<IllegalArgumentException> { EntityIdentifier("-a") }
-            .hasMessage("Entity identifier must start and end with a letter.")
+            .hasMessage("Entity identifier must start with a letter.")
     }
 
     test(name = "Initializing entity identifier ending with a dot fails") {
         expectThrows<IllegalArgumentException> { EntityIdentifier("a-") }
-            .hasMessage("Entity identifier must start and end with a letter.")
+            .hasMessage("Entity identifier must end with a letter or digit.")
     }
 
     test(name = "Initializing entity identifier with leading whitespace fails") {
         expectThrows<IllegalArgumentException> { EntityIdentifier(" test.entity") }
-            .hasMessage("Entity identifier must start and end with a letter.")
+            .hasMessage("Entity identifier must start with a letter.")
     }
 
     test(name = "Initializing entity identifier with trailing whitespace fails") {
         expectThrows<IllegalArgumentException> { EntityIdentifier("test.entity ") }
-            .hasMessage("Entity identifier must start and end with a letter.")
+            .hasMessage("Entity identifier must end with a letter or digit.")
     }
 
     test(name = "Initializing entity identifier with non-ASCII letters fails") {
@@ -120,5 +120,14 @@ val entityIdentifierTest by testSuite(
     test(name = "Casting entity identifier to a string actually outputs the identifier as-is") {
         expectThat(EntityIdentifier("test.entity").toString())
             .isEqualTo("test.entity")
+    }
+
+    testSuite(name = "Initializing entity identifier with reserved namespace fails") {
+        EntityIdentifier.RESERVED_NAMESPACES.forEach { namespace ->
+            test(name = "Entity starting with reserved '$namespace' namespace") {
+                expectThrows<IllegalArgumentException> { EntityIdentifier("$namespace.test.entity") }
+                    .hasMessage("Entity identifier cannot start with a reserved namespace ($namespace).")
+            }
+        }
     }
 }
