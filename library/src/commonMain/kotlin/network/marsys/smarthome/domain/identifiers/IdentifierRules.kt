@@ -4,7 +4,10 @@ internal data object IdentifierRules {
     private const val REQUIRED_ALLOWED_CHARS = 5
     private const val MAX_IDENTIFIER_LENGTH = 255
     private val SEPARATOR_CHARS = listOf('.', '-')
-    private val ALLOWED_CHARS = ('a'..'z') + ('0'..'9') + SEPARATOR_CHARS
+
+    private val LETTERS = 'a'..'z'
+    private val DIGITS = '0'..'9'
+    private val ALLOWED_CHARS = LETTERS + DIGITS + SEPARATOR_CHARS
 
     fun validate(value: String, identifierType: String) {
         require(value.isNotBlank()) {
@@ -15,8 +18,12 @@ internal data object IdentifierRules {
             "$identifierType must contain at least one letter."
         }
 
-        require(value.first().isLetter() && value.last().isLetter()) {
-            "$identifierType must start and end with a letter."
+        require(value.first().isLetter()) {
+            "$identifierType must start with a letter."
+        }
+
+        require(value.last() in LETTERS + DIGITS) {
+            "$identifierType must end with a letter or digit."
         }
 
         require(value.all { it in ALLOWED_CHARS }) {
