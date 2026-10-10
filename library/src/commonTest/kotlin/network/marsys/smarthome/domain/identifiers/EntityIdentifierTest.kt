@@ -5,6 +5,7 @@ import dev.nmarsman.expect.api.expectThat
 import dev.nmarsman.expect.api.expectThrows
 import dev.nmarsman.expect.assertions.hasMessage
 import dev.nmarsman.expect.assertions.isEqualTo
+import network.marsys.smarthome.domain.validation.RESERVED_NAMESPACES
 
 val entityIdentifierTest by testSuite(
     name = "Entity identifier tests",
@@ -99,10 +100,10 @@ val entityIdentifierTest by testSuite(
     }
 
     testSuite(name = "Initializing entity identifier with too few characters fails") {
-        (1..4).forEach {
+        (1..3).forEach {
             test(name = "Value with $it characters") {
                 expectThrows<IllegalArgumentException> { EntityIdentifier("a".repeat(it)) }
-                    .hasMessage("Entity identifier must contain at least 5 allowed characters.")
+                    .hasMessage("Entity identifier must contain at least 4 allowed characters.")
             }
         }
     }
@@ -123,10 +124,10 @@ val entityIdentifierTest by testSuite(
     }
 
     testSuite(name = "Initializing entity identifier with reserved namespace fails") {
-        EntityIdentifier.RESERVED_NAMESPACES.forEach { namespace ->
+        RESERVED_NAMESPACES.forEach { namespace ->
             test(name = "Entity starting with reserved '$namespace' namespace") {
                 expectThrows<IllegalArgumentException> { EntityIdentifier("$namespace.test.entity") }
-                    .hasMessage("Entity identifier cannot start with a reserved namespace ($namespace).")
+                    .hasMessage("Entity identifier cannot start with a reserved prefix ($namespace).")
             }
         }
     }

@@ -11,7 +11,7 @@ val integrationIdentifierTest by testSuite(
 ) {
     test(name = "Initializing integration identifier with namespace only fails") {
         expectThrows<IllegalArgumentException> { IntegrationIdentifier("integration") }
-            .hasMessage("Integration identifier must start with the namespace 'integration.'.")
+            .hasMessage("Integration identifier must start with 'integration.'.")
     }
 
     test(name = "Initializing integration identifier with namespace and dot only fails") {
@@ -21,12 +21,12 @@ val integrationIdentifierTest by testSuite(
 
     test(name = "Initializing integration identifier with no namespace fails") {
         expectThrows<IllegalArgumentException> { IntegrationIdentifier("integration-name") }
-            .hasMessage("Integration identifier must start with the namespace 'integration.'.")
+            .hasMessage("Integration identifier must start with 'integration.'.")
     }
 
     test(name = "Initializing integration identifier with wrong namespace fails") {
         expectThrows<IllegalArgumentException> { IntegrationIdentifier("test.integration-name") }
-            .hasMessage("Integration identifier must start with the namespace 'integration.'.")
+            .hasMessage("Integration identifier must start with 'integration.'.")
     }
 
     test(name = "Initializing integration identifier with namespace and valid name succeeds") {
@@ -113,10 +113,10 @@ val integrationIdentifierTest by testSuite(
     }
 
     testSuite(name = "Initializing integration identifier with too few characters fails") {
-        (1..4).forEach {
+        (1..3).forEach {
             test(name = "Value with $it characters") {
                 expectThrows<IllegalArgumentException> { IntegrationIdentifier("integration." + "a".repeat(it)) }
-                    .hasMessage("Integration identifier must contain at least 5 allowed characters.")
+                    .hasMessage("Integration identifier must contain at least 4 allowed characters.")
             }
         }
     }
