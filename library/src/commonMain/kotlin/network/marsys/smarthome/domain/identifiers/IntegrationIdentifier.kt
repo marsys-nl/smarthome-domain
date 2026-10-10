@@ -1,30 +1,39 @@
 package network.marsys.smarthome.domain.identifiers
 
 import kotlinx.serialization.Serializable
+import network.marsys.smarthome.domain.validation.Rules
 import kotlin.jvm.JvmInline
 
 @JvmInline
 @Serializable
-value class IntegrationIdentifier(val value: String) {
+value class IntegrationIdentifier(val value: String) : Identifier {
     init {
-        require(value.startsWith(NAMESPACE)) {
-            "Integration identifier must start with the namespace '$NAMESPACE'."
-        }
+        Rules.validate(
+            value = value,
+            subject = "Integration identifier",
+            rules = listOf(
+                Rules.startWithPrefix(PREFIX),
+                Rules.minLength(
+                    min = PREFIX.length,
+                    description = "contain a namespace and a name",
+                ),
+            ),
+        )
 
-        require(value.length > NAMESPACE.length) {
-            "Integration identifier must contain a namespace and a name."
-        }
-
-        IdentifierRules.validate(namespace, "Integration identifier")
+        Rules.validate(
+            value = namespace,
+            subject = "Integration identifier",
+            rules = Identifier.rules,
+        )
     }
 
     val namespace: String
         get() = value
-            .removePrefix(NAMESPACE)
+            .removePrefix(PREFIX)
 
     override fun toString(): String = value
 
     companion object {
-        internal const val NAMESPACE = "integration."
+        internal const val PREFIX = "integration."
     }
 }

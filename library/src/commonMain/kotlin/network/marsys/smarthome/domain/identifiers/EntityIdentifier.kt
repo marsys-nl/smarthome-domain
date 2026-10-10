@@ -1,25 +1,24 @@
 package network.marsys.smarthome.domain.identifiers
 
 import kotlinx.serialization.Serializable
+import network.marsys.smarthome.domain.validation.RESERVED_NAMESPACES
+import network.marsys.smarthome.domain.validation.Rules
 import kotlin.jvm.JvmInline
 
 @JvmInline
 @Serializable
-value class EntityIdentifier(val value: String) {
+value class EntityIdentifier(val value: String) : Identifier {
     init {
-        require(RESERVED_NAMESPACES.none { value.startsWith(it) }) {
-            "Entity identifier cannot start with a reserved namespace " +
-                "(${RESERVED_NAMESPACES.first { value.startsWith(it) }})."
-        }
-
-        IdentifierRules.validate(value, "Entity identifier")
+        Rules.validate(
+            value = value,
+            subject = "Entity identifier",
+            rules = listOf(
+                Rules.notStartWithPrefix(
+                    prefixes = RESERVED_NAMESPACES,
+                ),
+            ) + Identifier.rules,
+        )
     }
 
     override fun toString(): String = value
-
-    companion object {
-        internal val RESERVED_NAMESPACES = listOf(
-            IntegrationIdentifier.NAMESPACE,
-        )
-    }
 }
