@@ -25,8 +25,8 @@ value class TranslationKey(val value: String) {
                     description = "letters, dashes, and dots",
                 ),
                 Rules.noConsecutiveCharacters(),
-                Rules.maxLength(255),
-                Rules.minLength(4),
+                Rules.maxLength(),
+                Rules.minLength(),
             ),
         )
     }

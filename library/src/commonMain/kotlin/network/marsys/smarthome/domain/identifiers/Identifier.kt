@@ -12,7 +12,7 @@ interface Identifier {
             Rules.containsOnly(),
             Rules.containsAtLeast(),
             Rules.noConsecutiveCharacters(),
-            Rules.maxLength(255)
+            Rules.maxLength(),
         )
     }
 }

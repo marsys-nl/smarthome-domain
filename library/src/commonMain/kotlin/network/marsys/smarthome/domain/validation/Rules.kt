@@ -27,7 +27,7 @@ internal object Rules {
 
     fun endsWith(
         allowed: Collection<Char> = LETTERS + DIGITS,
-        description: String = "a letter or digit"
+        description: String = "a letter or digit",
     ) = Rule { value, subject ->
         require(value.last() in allowed) {
             "$subject must end with $description."
@@ -54,7 +54,8 @@ internal object Rules {
     }
 
     fun maxLength(
-        max: Int,
+        @Suppress("MagicNumber")
+        max: Int = 255,
     ) = Rule { value, subject ->
         require(value.length <= max) {
             "$subject cannot be longer than $max characters."
@@ -62,7 +63,7 @@ internal object Rules {
     }
 
     fun minLength(
-        min: Int,
+        min: Int = 4,
         description: String = "be at least $min characters long",
     ) = Rule { value, subject ->
         require(value.length > min) {
@@ -106,7 +107,7 @@ internal object Rules {
     fun validate(
         value: String,
         subject: String,
-        rules: Collection<Rule>
+        rules: Collection<Rule>,
     ) = rules.forEach { it.check(value, subject) }
 }
 
