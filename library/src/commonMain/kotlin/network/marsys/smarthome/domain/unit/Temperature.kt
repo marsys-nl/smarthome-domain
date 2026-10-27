@@ -1,7 +1,5 @@
 package network.marsys.smarthome.domain.unit
 
-import kotlin.math.round as kotlinRound
-
 /**
  * Temperature dimension, with the kelvin (`K`) as its canonical base unit.
  */
@@ -13,14 +11,14 @@ sealed class Temperature(
     final override val spaceBetweenMagnitude: Boolean
         get() = false
 
+    override val rounding: Rounding
+        get() = NearestMultiple(step = 0.1)
+
     final override fun toBaseUnit(value: Double): Double =
         value * factor + offsetInKelvin
 
     final override fun fromBaseUnit(value: Double): Double =
         (value - offsetInKelvin) / factor
-
-    override fun round(value: Double): Double =
-        kotlinRound(value * TEMPERATURE_ROUNDING_OFFSET) / TEMPERATURE_ROUNDING_OFFSET
 }
 
 /**
@@ -40,8 +38,8 @@ data object Celsius : Temperature(
     factor = 1.0,
     offsetInKelvin = CELSIUS_OFFSET_IN_KELVIN,
 ) {
-    override fun round(value: Double): Double =
-        kotlinRound(value * CELSIUS_ROUNDING_OFFSET) / CELSIUS_ROUNDING_OFFSET
+    override val rounding: Rounding
+        get() = NearestMultiple(step = 0.5)
 }
 
 /**
@@ -63,9 +61,6 @@ val Number.fahrenheit: Quantity<Dimension.Temperature> get() =
     measuredIn(unit = Fahrenheit)
 
 private const val CELSIUS_OFFSET_IN_KELVIN = 273.15
-private const val CELSIUS_ROUNDING_OFFSET = 2.0
 
 private const val FAHRENHEIT_KELVIN_PER_DEGREE = 5.0 / 9.0
 private const val FAHRENHEIT_FREEZING_POINT = 32.0
-
-private const val TEMPERATURE_ROUNDING_OFFSET = 10.0

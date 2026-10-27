@@ -28,6 +28,12 @@ interface Unit<D : Dimension> {
     val scale: Scale<D> get() = PlainScale()
 
     /**
+     * The [Rounding] used when formatting quantities in this unit and the caller does not
+     * supply one. This is a display preference, not a statement about measurement accuracy.
+     */
+    val rounding: Rounding get() = Rounding.Default
+
+    /**
      * Converts [value], expressed in this unit, to the dimension's base unit.
      */
     fun toBaseUnit(value: Double): Double
@@ -36,11 +42,4 @@ interface Unit<D : Dimension> {
      * Converts [value], expressed in the dimension's base unit, to this unit.
      */
     fun fromBaseUnit(value: Double): Double
-
-    /**
-     * Rounds [value] for display purposes, if necessary.
-     * By default, this is a no-op, but some units may choose to override it,
-     * e.g. to round temperatures to the nearest 0.5°C.
-     */
-    fun round(value: Double): Double = value
 }

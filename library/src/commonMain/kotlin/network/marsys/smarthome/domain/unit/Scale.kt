@@ -13,9 +13,14 @@ import kotlin.math.round
  */
 interface Scale<D : Dimension> {
     /**
-     * Renders [value], expressed in [unit], as a display string.
+     * Renders [value], expressed in [unit], as a display string, rounding
+     * the final magnitude with [rounding].
      */
-    fun format(value: Double, unit: Unit<D>): String
+    fun format(
+        value: Double,
+        unit: Unit<D>,
+        rounding: Rounding = Rounding.Default,
+    ): String
 }
 
 /**
@@ -24,8 +29,8 @@ interface Scale<D : Dimension> {
  * temperatures and ratios.
  */
 class PlainScale<D : Dimension> : Scale<D> {
-    override fun format(value: Double, unit: Unit<D>): String =
-        formatMagnitude(value, unit.symbol, unit.spaceBetweenMagnitude)
+    override fun format(value: Double, unit: Unit<D>, rounding: Rounding): String =
+        formatMagnitude(value, unit.symbol, unit.spaceBetweenMagnitude, rounding)
 }
 
 /**
@@ -37,13 +42,14 @@ class MetricScale<D : Dimension>(
 ) : Scale<D> {
     constructor(prefix: MetricPrefix) : this(listOf(prefix))
 
-    override fun format(value: Double, unit: Unit<D>): String {
+    override fun format(value: Double, unit: Unit<D>, rounding: Rounding): String {
         val prefix = prefixes.preferredFor(value)
 
         return formatMagnitude(
             value = value / prefix.factor,
             symbol = "${prefix.symbol}${unit.symbol}",
             spaceBetweenMagnitude = unit.spaceBetweenMagnitude,
+            rounding = rounding,
         )
     }
 
@@ -66,13 +72,14 @@ class BinaryScale<D : Dimension>(
 ) : Scale<D> {
     constructor(prefix: BinaryPrefix) : this(listOf(prefix))
 
-    override fun format(value: Double, unit: Unit<D>): String {
+    override fun format(value: Double, unit: Unit<D>, rounding: Rounding): String {
         val prefix = prefixes.preferredFor(value)
 
         return formatMagnitude(
             value = value / prefix.factor,
             symbol = "${prefix.symbol}${unit.symbol}",
             spaceBetweenMagnitude = unit.spaceBetweenMagnitude,
+            rounding = rounding,
         )
     }
 
@@ -102,13 +109,14 @@ class CompositeScale<D : Dimension>(
     private val largestUnit: Unit<D>,
     private val smallestUnit: Unit<D>,
 ) : Scale<D> {
-    override fun format(value: Double, unit: Unit<D>): String {
+    override fun format(value: Double, unit: Unit<D>, rounding: Rounding): String {
         val components = components(value, unit)
         val rendered = components.joinToString(separator = " ") { component ->
             formatMagnitude(
                 value = component.value,
                 symbol = component.unit.symbol,
                 spaceBetweenMagnitude = component.unit.spaceBetweenMagnitude,
+                rounding = rounding,
             )
         }
 
@@ -160,6 +168,7 @@ internal fun formatMagnitude(
     value: Double,
     symbol: String,
     spaceBetweenMagnitude: Boolean,
+    rounding: Rounding = Rounding.None,
 ): String {
     val separator = if (spaceBetweenMagnitude && symbol.isNotBlank()) {
         " "
@@ -167,11 +176,16 @@ internal fun formatMagnitude(
         ""
     }
 
-    val magnitude = if (value % 1.0 == 0.0) {
-        value.toInt().toString()
-    } else {
-        value.toString()
+    val magnitude = when {
+        value.isNaN() -> NOT_A_NUMBER_SYMBOL
+        value == Double.POSITIVE_INFINITY -> INFINITY_SYMBOL
+        value == Double.NEGATIVE_INFINITY -> "-$INFINITY_SYMBOL"
+        else -> rounding.format(value)
     }
 
     return "$magnitude$separator$symbol"
 }
+
+private const val INFINITY_SYMBOL = "∞"
+
+private const val NOT_A_NUMBER_SYMBOL = "NaN"

@@ -93,6 +93,7 @@ fun Quantity<Dimension.Time>.format(
         largestUnit = largestUnit,
         smallestUnit = smallestUnit,
     ),
+    rounding = Rounding.None,
 )
 
 /**
