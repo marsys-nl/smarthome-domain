@@ -2,6 +2,8 @@ package network.marsys.smarthome.domain.unit
 
 import de.infix.testBalloon.framework.core.testSuite
 import dev.nmarsman.expect.api.expectThat
+import dev.nmarsman.expect.api.expectThrows
+import dev.nmarsman.expect.assertions.hasMessage
 import dev.nmarsman.expect.assertions.isEqualTo
 
 val quantityTest by testSuite(
@@ -204,6 +206,42 @@ val quantityTest by testSuite(
                 .isEqualTo("50%")
         }
 
+        test(name = "A percentage is rounded by default when there are too many decimals") {
+            expectThat(50.123892353458.percent)
+                .get(Quantity<*>::toString)
+                .isEqualTo("50.12%")
+        }
+
+        test(name = "A percentage is rounded properly when there are too many decimals - rounded normally") {
+            expectThat(50.123892353458.percent)
+                .get { format(rounding = Rounding.Default) }
+                .isEqualTo("50.12%")
+        }
+
+        test(name = "A percentage is rounded properly when there are too many decimals - rounded up") {
+            expectThat(50.69.percent)
+                .get { format(rounding = Decimals(decimals = 0)) }
+                .isEqualTo("51%")
+        }
+
+        test(name = "A value is formatted properly when not a number given") {
+            expectThat(Double.NaN.fraction)
+                .get { format() }
+                .isEqualTo("NaN")
+        }
+
+        test(name = "A value is formatted properly when positive infinity is given") {
+            expectThat(Double.POSITIVE_INFINITY.watts)
+                .get { format() }
+                .isEqualTo("∞ GW")
+        }
+
+        test(name = "A value is formatted properly when negative infinity is given") {
+            expectThat(Double.NEGATIVE_INFINITY.watts)
+                .get { format() }
+                .isEqualTo("-∞ GW")
+        }
+
         test(name = "A unit without a symbol is rendered as the bare value") {
             expectThat(0.5.fraction)
                 .get(Quantity<*>::toString)
@@ -246,10 +284,16 @@ val quantityTest by testSuite(
                 .isEqualTo("2 kW")
         }
 
-        test(name = "An explicitly supplied scale overrides the unit's default") {
+        test(name = "An explicitly supplied scale overrides the unit's default - rounding isn't applied when rounding is smaller than 1") {
             expectThat(1_500.watts)
                 .get { format(MetricScale(MetricPrefix.MEGA)) }
                 .isEqualTo("0.0015 MW")
+        }
+
+        test(name = "An explicitly supplied scale overrides the unit's default - rounding is applied when magnitude is bigger than 1") {
+            expectThat(1_512.3456789.watts)
+                .get { format(MetricScale(MetricPrefix.KILO)) }
+                .isEqualTo("1.51 kW")
         }
 
         test(name = "A large current is scaled to a readable prefix") {

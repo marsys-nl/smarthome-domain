@@ -56,16 +56,8 @@ data class Quantity<D : Dimension>(
      * Pass a different scale to override the rendering, e.g. [PlainScale] to print the value
      * as recorded or [MetricScale] to force a specific prefix.
      */
-    fun format(scale: Scale<D> = unit.scale): String = with(round()) {
-        scale.format(value, unit)
-    }
-
-    /**
-     * Rounds the value of this measurement according to the rounding rules of its unit,
-     * e.g. rounding a temperature in Celsius to the nearest half degree.
-     */
-    fun round(): Quantity<D> =
-        Quantity(value = unit.round(value), unit = unit)
+    fun format(scale: Scale<D> = unit.scale, rounding: Rounding? = null): String =
+        scale.format(value, unit, rounding ?: unit.rounding)
 }
 
 /**
