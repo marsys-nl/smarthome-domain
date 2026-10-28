@@ -1,6 +1,19 @@
 package network.marsys.smarthome.domain.capability
 
-sealed class Capability {
+sealed class Capability<T : Any, S : Capability<T, S>> {
+    abstract val current: T
+    abstract val context: Context
+
+    protected abstract fun updateWith(
+        value: T,
+        context: Context,
+    ): S
+
+    fun updateWith(value: T): S =
+        updateWith(value = value, context = context)
+
+    infix fun with(context: Context): S =
+        updateWith(value = current, context = this.context + context)
 
     /**
      * Context is a set of additional information that can be associated with a capability.
