@@ -1,8 +1,5 @@
 package network.marsys.smarthome.domain.capability
 
-import network.marsys.smarthome.domain.unit.Dimension
-import network.marsys.smarthome.domain.unit.Quantity
-
 data class ScheduledMode(
     override val current: Boolean,
     override val context: Context = Context.Empty,
