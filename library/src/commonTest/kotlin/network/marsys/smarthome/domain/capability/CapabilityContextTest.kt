@@ -75,7 +75,7 @@ val CapabilityContextTest by testSuite(
     }
 }
 
-private data object Example : Capability.Context.Element, Capability.Context.Key<Example> {
+data object Example : Capability.Context.Element, Capability.Context.Key<Example> {
     override val key: Capability.Context.Key<Example>
         get() = Example
 }
