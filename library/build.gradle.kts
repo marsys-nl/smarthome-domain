@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
@@ -13,7 +15,11 @@ kotlin {
 
     applyDefaultHierarchyTemplate()
 
-    jvm()
+    jvm {
+        compilerOptions {
+            jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
+        }
+    }
 
     iosArm64()
     iosSimulatorArm64()

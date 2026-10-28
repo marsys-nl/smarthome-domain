@@ -107,3 +107,5 @@ style:
         ignoreRanges: true
     MaxChainedCallsOnSameLine:
         maxChainedCalls: 3
+    UnnecessaryParentheses:
+      allowForUnclearPrecedence: true
