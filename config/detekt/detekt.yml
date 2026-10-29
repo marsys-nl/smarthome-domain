@@ -109,3 +109,5 @@ style:
         maxChainedCalls: 3
     UnnecessaryParentheses:
       allowForUnclearPrecedence: true
+    UseIfInsteadOfWhen:
+      active: false

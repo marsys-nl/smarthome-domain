@@ -15,6 +15,10 @@ sealed class Capability<T : Any, S : Capability<T, S>> {
     infix fun with(context: Context): S =
         updateWith(value = current, context = this.context + context)
 
+    /*
+     * Context
+     */
+
     /**
      * Context is a set of additional information that can be associated with a capability.
      * It can be used to provide additional context for the capability, for example to
@@ -65,7 +69,6 @@ sealed class Capability<T : Any, S : Capability<T, S>> {
             private val left: Context,
             private val element: Element,
         ) : Context {
-            @Suppress("UseIfInsteadOfWhen")
             override fun <E : Element> get(key: Key<E>): E? {
                 var current: Context = this
 
@@ -87,6 +90,68 @@ sealed class Capability<T : Any, S : Capability<T, S>> {
 
             override fun <R> fold(initial: R, operation: (R, Element) -> R): R =
                 operation(left.fold(initial, operation), element)
+        }
+    }
+
+    /*
+     * Constraints
+     */
+
+    /**
+     * Represents a constraint on a capability.
+     */
+    sealed interface Constraint<out C : Capability<*, *>>
+
+    /**
+     * Represents a constraint that indicates that the capability is present and has a value.
+     */
+    sealed interface Present<out C : Capability<*, *>> : Constraint<C> {
+        val value: C
+    }
+
+    /**
+     * Represents a constraint that indicates that the capability is required and must have a value.
+     */
+    data class Required<C : Capability<*, *>>(
+        override val value: C,
+    ) : Constraint<C>, Present<C> {
+        fun updateWith(capability: @UnsafeVariance C): Required<C> =
+            copy(value = capability)
+    }
+
+    /**
+     * Represents a constraint that indicates that the capability is optional and may or may not have a value.
+     */
+    sealed class Optional<out C : Capability<*, *>> : Constraint<C> {
+        @Suppress("UNCHECKED_CAST")
+        fun updateWith(capability: @UnsafeVariance C): Optional<C> =
+            when (this) {
+                is Unsupported -> this
+                is Available<*> -> update(capability = capability)
+            } as Optional<C>
+    }
+
+    /**
+     * Represents a constraint that indicates that the capability is unsupported and does not have a value.
+     */
+    data object Unsupported : Optional<Nothing>()
+
+    /**
+     * Represents a constraint that indicates that the capability is available and has a value.
+     */
+    data class Available<C : Capability<*, *>>(
+        override val value: C,
+    ) : Optional<C>(), Present<C> {
+        @Suppress("UNCHECKED_CAST")
+        internal fun update(capability: Capability<*, *>): Available<C> =
+            copy(value = capability as C)
+    }
+
+    companion object {
+        fun <T : Capability<*, *>> required(value: T) = Required(value)
+        fun <T : Capability<*, *>> optional(value: T?) = when (value) {
+            null -> Unsupported
+            else -> Available(value)
         }
     }
 }

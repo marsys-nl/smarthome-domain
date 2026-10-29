@@ -145,7 +145,6 @@ class NearestMultiple(
 
     private val factor: Double = 10.0.pow(decimalsNeededFor(step))
 
-    @Suppress("UseIfInsteadOfWhen")
     override fun round(value: Double): Double =
         when {
             value.isFinite() -> kotlinRound(kotlinRound(value / step) * step * factor) / factor
