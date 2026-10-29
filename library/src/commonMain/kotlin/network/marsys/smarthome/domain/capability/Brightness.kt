@@ -7,9 +7,14 @@ data class Brightness(
     override val current: Quantity<Dimension.Ratio>,
     override val context: Context = Context.Empty,
 ) : Capability<Quantity<Dimension.Ratio>, Brightness>() {
+    override val type: Type<Brightness>
+        get() = Brightness
+
     override fun updateWith(value: Quantity<Dimension.Ratio>, context: Context) =
         copy(
             current = value,
             context = context,
         )
+
+    companion object : Type<Brightness>
 }

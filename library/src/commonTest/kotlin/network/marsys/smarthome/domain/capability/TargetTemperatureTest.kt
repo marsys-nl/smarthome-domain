@@ -68,4 +68,10 @@ val TargetTemperatureTest by testSuite(
             .get(TargetTemperature::range)
             .isEqualTo(5.celsius..35.celsius)
     }
+
+    test(name = "Target temperature capability is of the correct type") {
+        expectThat(TargetTemperature(current = 50.celsius))
+            .get(TargetTemperature::type)
+            .isEqualTo(TargetTemperature)
+    }
 }

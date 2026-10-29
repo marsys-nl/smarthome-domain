@@ -3,6 +3,7 @@ package network.marsys.smarthome.domain.capability
 import de.infix.testBalloon.framework.core.testSuite
 import dev.nmarsman.expect.api.expectThat
 import dev.nmarsman.expect.assertions.isA
+import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isTrue
 
@@ -45,5 +46,11 @@ val OpenedTest by testSuite(
         expectThat(Opened(current = true) with Example)
             .get(Opened::context)
             .isA<Example>()
+    }
+
+    test(name = "Opened capability is of the correct type") {
+        expectThat(Opened(current = true))
+            .get(Opened::type)
+            .isEqualTo(Opened)
     }
 }

@@ -3,6 +3,7 @@ package network.marsys.smarthome.domain.capability
 import de.infix.testBalloon.framework.core.testSuite
 import dev.nmarsman.expect.api.expectThat
 import dev.nmarsman.expect.assertions.isA
+import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isTrue
 
@@ -45,5 +46,11 @@ val ScheduledModeTest by testSuite(
         expectThat(ScheduledMode(current = true) with Example)
             .get(ScheduledMode::context)
             .isA<Example>()
+    }
+
+    test(name = "Scheduled mode capability is of the correct type") {
+        expectThat(ScheduledMode(current = true))
+            .get(ScheduledMode::type)
+            .isEqualTo(ScheduledMode)
     }
 }

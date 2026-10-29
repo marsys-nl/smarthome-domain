@@ -3,6 +3,7 @@ package network.marsys.smarthome.domain.capability
 sealed class Capability<T : Any, S : Capability<T, S>> {
     abstract val current: T
     abstract val context: Context
+    abstract val type: Type<S>
 
     protected abstract fun updateWith(
         value: T,
@@ -154,4 +155,10 @@ sealed class Capability<T : Any, S : Capability<T, S>> {
             else -> Available(value)
         }
     }
+
+    /*
+     * Type
+     */
+
+    interface Type<C : Capability<*, *>>
 }

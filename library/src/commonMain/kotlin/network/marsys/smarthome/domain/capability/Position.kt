@@ -7,9 +7,14 @@ data class Position(
     override val current: Quantity<Dimension.Ratio>,
     override val context: Context = Context.Empty,
 ) : Capability<Quantity<Dimension.Ratio>, Position>() {
+    override val type: Type<Position>
+        get() = Position
+
     override fun updateWith(value: Quantity<Dimension.Ratio>, context: Context) =
         copy(
             current = value,
             context = context,
         )
+
+    companion object : Type<Position>
 }

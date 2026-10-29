@@ -6,6 +6,9 @@ data class Movement(
     override val current: Direction,
     override val context: Context = Context.Empty,
 ) : Capability<Direction, Movement>() {
+    override val type: Type<Movement>
+        get() = Movement
+
     override fun updateWith(value: Direction, context: Context) =
         copy(
             current = value,
@@ -17,4 +20,6 @@ data class Movement(
         Opening,
         Closing,
     }
+
+    companion object : Type<Movement>
 }

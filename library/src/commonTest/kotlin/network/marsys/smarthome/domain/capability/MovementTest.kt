@@ -47,4 +47,10 @@ val MovementTest by testSuite(
             .get(Movement::context)
             .isA<Example>()
     }
+
+    test(name = "Movement capability is of the correct type") {
+        expectThat(Movement(current = Movement.Direction.Opening))
+            .get(Movement::type)
+            .isEqualTo(Movement)
+    }
 }
