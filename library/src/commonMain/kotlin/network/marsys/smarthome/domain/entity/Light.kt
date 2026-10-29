@@ -2,6 +2,7 @@ package network.marsys.smarthome.domain.entity
 
 import network.marsys.smarthome.domain.capability.Brightness
 import network.marsys.smarthome.domain.capability.Capability
+import network.marsys.smarthome.domain.capability.Capability.Context
 import network.marsys.smarthome.domain.capability.OnOff
 import network.marsys.smarthome.domain.i18n.TranslationKey
 
@@ -18,7 +19,7 @@ data class Light(
             val onOff: Capability.Required<OnOff>,
             val brightness: Capability.Optional<Brightness>,
         ) : State, Entity.State.Known {
-            override fun find(type: Capability.Type<*>, context: Capability.Context): Capability<*, *>? =
+            override fun find(type: Capability.Type<*>, context: Context): Capability<*, *>? =
                 when (type) {
                     Brightness if brightness is Capability.Available<Brightness> -> brightness.value
                     OnOff -> onOff.value
