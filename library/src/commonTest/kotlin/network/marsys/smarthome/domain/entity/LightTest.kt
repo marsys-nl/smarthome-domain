@@ -20,6 +20,27 @@ import network.marsys.smarthome.domain.unit.percent
 val LightTest by testSuite(
     name = "Light tests",
 ) {
+    test(name = "Constructing a light with no naming key uses the default naming key") {
+        val entity = Light(
+            identifier = EntityIdentifier("test.light"),
+        )
+
+        expectThat(entity)
+            .get(Entity::naming)
+            .get(EntityNaming::key)
+            .isEqualTo(Light.defaultNamingKey)
+    }
+
+    test(name = "Constructing a system with no explicit state uses the unknown state") {
+        val entity = Light(
+            identifier = EntityIdentifier("test.light"),
+        )
+
+        expectThat(entity)
+            .get(Entity::state)
+            .isA<Entity.State.Unknown>()
+    }
+
     testSuite(
         name = "Light implements activatable",
     ) {
