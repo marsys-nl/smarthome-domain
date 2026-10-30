@@ -31,7 +31,7 @@ val LightTest by testSuite(
             .isEqualTo(Light.defaultNamingKey)
     }
 
-    test(name = "Constructing a system with no explicit state uses the unknown state") {
+    test(name = "Constructing a light with no explicit state uses the unknown state") {
         val entity = Light(
             identifier = EntityIdentifier("test.light"),
         )
