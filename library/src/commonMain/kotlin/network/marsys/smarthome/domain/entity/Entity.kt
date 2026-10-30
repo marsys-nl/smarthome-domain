@@ -61,3 +61,6 @@ private val KClass<*>.formattedName: String get() = this.qualifiedName!!
 
 internal fun Entity.State.unsupportedCapabilityError(capability: Capability<*, *>): Nothing =
     error("Unsupported '${capability::class.formattedName}' capability provided for '${this::class.formattedName}'")
+
+internal fun Cover.Control.unsupportedCapabilityError(capability: Capability<*, *>): Nothing =
+    error("Unsupported '${capability::class.formattedName}' capability provided for '${this::class.formattedName}'")
