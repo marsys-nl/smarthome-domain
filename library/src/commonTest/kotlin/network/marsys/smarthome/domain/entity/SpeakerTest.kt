@@ -10,8 +10,6 @@ import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isNull
 import dev.nmarsman.expect.assertions.isTrue
 import network.marsys.smarthome.domain.capability.Brightness
-import network.marsys.smarthome.domain.capability.Capability
-import network.marsys.smarthome.domain.capability.Capability.Companion.optional
 import network.marsys.smarthome.domain.capability.Capability.Companion.required
 import network.marsys.smarthome.domain.capability.MeasureLoad
 import network.marsys.smarthome.domain.capability.OnOff

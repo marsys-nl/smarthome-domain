@@ -1,6 +1,5 @@
 package network.marsys.smarthome.domain.entity
 
-import network.marsys.smarthome.domain.capability.Brightness
 import network.marsys.smarthome.domain.capability.Capability
 import network.marsys.smarthome.domain.capability.Capability.Context
 import network.marsys.smarthome.domain.capability.OnOff
