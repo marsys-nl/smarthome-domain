@@ -9,6 +9,7 @@ import network.marsys.smarthome.domain.capability.OnOff
 import network.marsys.smarthome.domain.capability.ScheduledMode
 import network.marsys.smarthome.domain.capability.TargetTemperature
 import network.marsys.smarthome.domain.capability.ThermostatMode
+import network.marsys.smarthome.domain.capability.ThermostatStatus
 import network.marsys.smarthome.domain.capability.WindowDetection
 import network.marsys.smarthome.domain.i18n.TranslationKey
 
@@ -18,7 +19,10 @@ data class Thermostat(
     override val state: Entity.State = State.Unknown,
 ) : Entity, Entity.Activatable {
     override val active: Boolean
-        get() = state is State.Known && state.onOff.value.current
+        get() = state is State.Known && state.status.value.current in setOf(
+            ThermostatStatus.Status.Heating,
+            ThermostatStatus.Status.Cooling,
+        )
 
     sealed interface State : Entity.State {
         data class Known(
@@ -29,6 +33,18 @@ data class Thermostat(
             val windowDetection: Capability.Optional<WindowDetection> = Capability.Unsupported,
             val scheduledMode: Capability.Optional<ScheduledMode> = Capability.Unsupported,
         ) : State, Entity.State.Known {
+            val status: Capability.Computed<ThermostatStatus>
+                get() = Capability.Computed(
+                    value = ThermostatStatus(
+                        current = ThermostatStatus.compute(
+                            onOff = onOff.value,
+                            mode = mode.value,
+                            targetTemperature = temperatures.target.value.current,
+                            currentTemperature = temperatures.current.value.current,
+                        ),
+                    ),
+                )
+
             override fun find(type: Capability.Type<*>, context: Context): Capability<*, *>? =
                 when (type) {
                     OnOff -> onOff.value

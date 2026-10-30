@@ -111,6 +111,13 @@ sealed class Capability<T : Any, S : Capability<T, S>> {
     }
 
     /**
+     * Represents a constraint that indicates that the capability is computed and has a value.
+     */
+    data class Computed<C : Capability<*, *>>(
+        override val value: C,
+    ) : Present<C>
+
+    /**
      * Represents a constraint that indicates that the capability is required and must have a value.
      */
     data class Required<C : Capability<*, *>>(

@@ -54,10 +54,31 @@ val ThermostatTest by testSuite(
     testSuite(
         name = "Thermostat implements activatable",
     ) {
-        test(name = "Thermostat is active when state is known and on-off capability is on") {
+        test(name = "Thermostat is active when state is known and thermostat state is heating") {
             val thermostat = Thermostat(
                 identifier = EntityIdentifier("test.thermostat"),
-                state = Thermostat.known(),
+                state = Thermostat.known(
+                    onOff = required(OnOff(current = true)),
+                    mode = required(ThermostatMode(current = Mode.Heat)),
+                    targetTemperature = required(TargetTemperature(current = 25.celsius)),
+                    currentTemperature = required(MeasureTemperature(current = 20.celsius)),
+                ),
+            )
+
+            expectThat(thermostat)
+                .get(Thermostat::active)
+                .isTrue()
+        }
+
+        test(name = "Thermostat is active when state is known and thermostat state is heating") {
+            val thermostat = Thermostat(
+                identifier = EntityIdentifier("test.thermostat"),
+                state = Thermostat.known(
+                    onOff = required(OnOff(current = true)),
+                    mode = required(ThermostatMode(current = Mode.Auto)),
+                    targetTemperature = required(TargetTemperature(current = 20.celsius)),
+                    currentTemperature = required(MeasureTemperature(current = 25.celsius)),
+                ),
             )
 
             expectThat(thermostat)
@@ -76,11 +97,27 @@ val ThermostatTest by testSuite(
                 .isFalse()
         }
 
-        test(name = "Thermostat is inactive when state is known and on-off capability is off") {
+        test(name = "Thermostat is inactive when state is known and thermostat state is off") {
             val thermostat = Thermostat(
                 identifier = EntityIdentifier("test.thermostat"),
                 state = Thermostat.known(
                     onOff = required(OnOff(current = false)),
+                ),
+            )
+
+            expectThat(thermostat)
+                .get(Thermostat::active)
+                .isFalse()
+        }
+
+        test(name = "Thermostat is inactive when state is known and thermostat state is idle") {
+            val thermostat = Thermostat(
+                identifier = EntityIdentifier("test.thermostat"),
+                state = Thermostat.known(
+                    onOff = required(OnOff(current = true)),
+                    mode = required(ThermostatMode(current = Mode.Cool)),
+                    targetTemperature = required(TargetTemperature(current = 25.celsius)),
+                    currentTemperature = required(MeasureTemperature(current = 20.celsius)),
                 ),
             )
 
