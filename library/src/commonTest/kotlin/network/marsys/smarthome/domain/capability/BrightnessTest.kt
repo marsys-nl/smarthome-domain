@@ -46,4 +46,10 @@ val BrightnessTest by testSuite(
             .get(Brightness::context)
             .isA<Example>()
     }
+
+    test(name = "Brightness capability is of the correct type") {
+        expectThat(Brightness(current = 50.percent))
+            .get(Brightness::type)
+            .isEqualTo(Brightness)
+    }
 }

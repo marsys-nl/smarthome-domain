@@ -3,6 +3,7 @@ package network.marsys.smarthome.domain.capability
 import de.infix.testBalloon.framework.core.testSuite
 import dev.nmarsman.expect.api.expectThat
 import dev.nmarsman.expect.assertions.isA
+import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isTrue
 
@@ -45,5 +46,11 @@ val OnOffTest by testSuite(
         expectThat(OnOff(current = true) with Example)
             .get(OnOff::context)
             .isA<Example>()
+    }
+
+    test(name = "OnOff capability is of the correct type") {
+        expectThat(OnOff(current = true))
+            .get(OnOff::type)
+            .isEqualTo(OnOff)
     }
 }

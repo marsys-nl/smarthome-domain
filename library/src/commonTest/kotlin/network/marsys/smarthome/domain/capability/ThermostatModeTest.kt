@@ -90,4 +90,10 @@ val ThermostatModeTest by testSuite(
             .get { supports(Mode.Cool) }
             .isEqualTo(false)
     }
+
+    test(name = "Thermostat mode capability is of the correct type") {
+        expectThat(ThermostatMode(current = Mode.Heat))
+            .get(ThermostatMode::type)
+            .isEqualTo(ThermostatMode)
+    }
 }

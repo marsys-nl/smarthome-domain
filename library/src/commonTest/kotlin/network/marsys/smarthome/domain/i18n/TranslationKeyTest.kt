@@ -94,10 +94,10 @@ val translationKeyTest by testSuite(
     }
 
     testSuite(name = "Initializing translation key with too few characters fails") {
-        (1..3).forEach {
+        (1..2).forEach {
             test(name = "Value with $it characters") {
                 expectThrows<IllegalArgumentException> { TranslationKey("a".repeat(it)) }
-                    .hasMessage("Translation key must be at least 4 characters long.")
+                    .hasMessage("Translation key must be at least 3 characters long.")
             }
         }
     }

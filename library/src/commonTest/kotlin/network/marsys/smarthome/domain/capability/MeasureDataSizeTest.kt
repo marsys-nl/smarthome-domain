@@ -46,4 +46,10 @@ val MeasureDataSizeTest by testSuite(
             .get(MeasureDataSize::context)
             .isA<Example>()
     }
+
+    test(name = "Measure data size capability is of the correct type") {
+        expectThat(MeasureDataSize(current = 50.gigabytes))
+            .get(MeasureDataSize::type)
+            .isEqualTo(MeasureDataSize)
+    }
 }

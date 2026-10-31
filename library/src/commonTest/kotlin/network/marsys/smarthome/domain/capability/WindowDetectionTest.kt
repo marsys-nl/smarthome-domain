@@ -3,6 +3,7 @@ package network.marsys.smarthome.domain.capability
 import de.infix.testBalloon.framework.core.testSuite
 import dev.nmarsman.expect.api.expectThat
 import dev.nmarsman.expect.assertions.isA
+import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isTrue
 
@@ -45,5 +46,11 @@ val WindowDetectionTest by testSuite(
         expectThat(WindowDetection(current = true) with Example)
             .get(WindowDetection::context)
             .isA<Example>()
+    }
+
+    test(name = "Window detection capability is of the correct type") {
+        expectThat(WindowDetection(current = true))
+            .get(WindowDetection::type)
+            .isEqualTo(WindowDetection)
     }
 }

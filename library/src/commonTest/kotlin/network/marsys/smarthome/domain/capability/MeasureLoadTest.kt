@@ -46,4 +46,10 @@ val MeasureLoadTest by testSuite(
             .get(MeasureLoad::context)
             .isA<Example>()
     }
+
+    test(name = "Measure load capability is of the correct type") {
+        expectThat(MeasureLoad(current = 50.percent))
+            .get(MeasureLoad::type)
+            .isEqualTo(MeasureLoad)
+    }
 }
