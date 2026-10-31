@@ -66,7 +66,7 @@ internal object Rules {
         min: Int = 4,
         description: String = "be at least $min characters long",
     ) = Rule { value, subject ->
-        require(value.length > min) {
+        require(value.length >= min) {
             "$subject must $description."
         }
     }
