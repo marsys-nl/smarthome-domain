@@ -1,6 +1,7 @@
-package network.marsys.smarthome.domain.identifiers
+package network.marsys.smarthome.domain.entity
 
 import kotlinx.serialization.Serializable
+import network.marsys.smarthome.domain.identifiers.Identifier
 import network.marsys.smarthome.domain.validation.RESERVED_NAMESPACES
 import network.marsys.smarthome.domain.validation.Rules
 import kotlin.jvm.JvmInline

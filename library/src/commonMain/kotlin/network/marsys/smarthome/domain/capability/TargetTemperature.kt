@@ -9,6 +9,9 @@ data class TargetTemperature(
     override val context: Context = Context.Empty,
     val range: ClosedRange<Quantity<Dimension.Temperature>> = defaultTemperatureRange,
 ) : Capability<Quantity<Dimension.Temperature>, TargetTemperature>() {
+    override val type: Type<TargetTemperature>
+        get() = TargetTemperature
+
     init {
         require(current in range) {
             "Current temperature $current is out of range. Given range: $range."
@@ -21,7 +24,7 @@ data class TargetTemperature(
             context = context,
         )
 
-    companion object {
+    companion object : Type<TargetTemperature> {
         private val MIN_TARGET_TEMPERATURE = 5.celsius
         private val MAX_TARGET_TEMPERATURE = 35.celsius
 

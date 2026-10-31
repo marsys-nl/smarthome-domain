@@ -26,7 +26,7 @@ value class TranslationKey(val value: String) {
                 ),
                 Rules.noConsecutiveCharacters(),
                 Rules.maxLength(),
-                Rules.minLength(),
+                Rules.minLength(min = 3),
             ),
         )
     }

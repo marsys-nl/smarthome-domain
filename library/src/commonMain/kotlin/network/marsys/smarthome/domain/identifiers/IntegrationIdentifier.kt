@@ -14,7 +14,7 @@ value class IntegrationIdentifier(val value: String) : Identifier {
             rules = listOf(
                 Rules.startWithPrefix(PREFIX),
                 Rules.minLength(
-                    min = PREFIX.length,
+                    min = PREFIX.length + 1,
                     description = "contain a namespace and a name",
                 ),
             ),

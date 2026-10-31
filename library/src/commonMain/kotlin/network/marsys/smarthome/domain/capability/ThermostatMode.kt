@@ -5,6 +5,9 @@ data class ThermostatMode(
     override val context: Context = Context.Empty,
     private val supported: Set<Mode> = Mode.entries.toSet(),
 ) : Capability<ThermostatMode.Mode, ThermostatMode>() {
+    override val type: Type<ThermostatMode>
+        get() = ThermostatMode
+
     init {
         require(current in supported) {
             "Current mode '$current' is not supported. Supported modes are: $supported."
@@ -29,4 +32,6 @@ data class ThermostatMode(
         Cool,
         Auto,
     }
+
+    companion object : Type<ThermostatMode>
 }

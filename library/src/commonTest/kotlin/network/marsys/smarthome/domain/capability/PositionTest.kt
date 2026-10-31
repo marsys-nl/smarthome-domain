@@ -46,4 +46,10 @@ val PositionTest by testSuite(
             .get(Position::context)
             .isA<Example>()
     }
+
+    test(name = "Position capability is of the correct type") {
+        expectThat(Position(current = 50.percent))
+            .get(Position::type)
+            .isEqualTo(Position)
+    }
 }

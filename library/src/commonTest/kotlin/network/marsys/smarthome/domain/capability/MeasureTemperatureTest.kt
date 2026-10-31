@@ -46,4 +46,10 @@ val MeasureTemperatureTest by testSuite(
             .get(MeasureTemperature::context)
             .isA<Example>()
     }
+
+    test(name = "Measure temperature capability is of the correct type") {
+        expectThat(MeasureTemperature(current = 50.celsius))
+            .get(MeasureTemperature::type)
+            .isEqualTo(MeasureTemperature)
+    }
 }
