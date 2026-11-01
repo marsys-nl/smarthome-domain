@@ -54,7 +54,7 @@ fun Entity.Type<*>.naming(
     qualifier = qualifier,
 )
 
-private val KClass<*>.formattedName: String get() = this.qualifiedName!!
+val KClass<*>.formattedName: String get() = this.qualifiedName!!
     .replace("network.marsys.smarthome.domain.entity", "")
     .replace("network.marsys.smarthome.domain.capability", "")
     .trimStart('.')
