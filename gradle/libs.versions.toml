@@ -1,5 +1,5 @@
 [versions]
-smarthome-domain = "2026.10-SNAPSHOT"
+smarthome-domain = "2026.11-SNAPSHOT"
 
 detekt = "2.0.0-alpha.6"
 
