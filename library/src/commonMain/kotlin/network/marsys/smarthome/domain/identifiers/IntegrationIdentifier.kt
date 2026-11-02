@@ -1,11 +1,9 @@
 package network.marsys.smarthome.domain.identifiers
 
-import kotlinx.serialization.Serializable
 import network.marsys.smarthome.domain.validation.Rules
 import kotlin.jvm.JvmInline
 
 @JvmInline
-@Serializable
 value class IntegrationIdentifier(val value: String) : Identifier {
     init {
         Rules.validate(
