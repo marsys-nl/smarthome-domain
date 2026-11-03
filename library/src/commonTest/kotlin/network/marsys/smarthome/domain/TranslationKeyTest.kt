@@ -1,11 +1,10 @@
-package network.marsys.smarthome.domain.i18n
+package network.marsys.smarthome.domain
 
 import de.infix.testBalloon.framework.core.testSuite
 import dev.nmarsman.expect.api.expectThat
 import dev.nmarsman.expect.api.expectThrows
 import dev.nmarsman.expect.assertions.hasMessage
 import dev.nmarsman.expect.assertions.isEqualTo
-import kotlin.getValue
 
 val translationKeyTest by testSuite(
     name = "Translation key tests",

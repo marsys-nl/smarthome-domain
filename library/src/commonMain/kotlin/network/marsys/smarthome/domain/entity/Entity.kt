@@ -1,8 +1,10 @@
 package network.marsys.smarthome.domain.entity
 
+import network.marsys.smarthome.domain.TranslationKey
 import network.marsys.smarthome.domain.capability.Capability
 import network.marsys.smarthome.domain.capability.Capability.Context
-import network.marsys.smarthome.domain.i18n.TranslationKey
+import network.marsys.smarthome.domain.zone.Zone
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 import kotlin.reflect.KClass
 
 sealed interface Entity {
@@ -10,6 +12,9 @@ sealed interface Entity {
     val naming: EntityNaming
     val state: State
     val type: Type<*>
+
+    val zone: ZoneIdentifier?
+        get() = null
 
     sealed interface State {
         fun find(type: Capability.Type<*>, context: Context = Context.Empty): Capability<*, *>?
@@ -43,17 +48,24 @@ sealed interface Entity {
      */
 
     sealed interface Type<E : Entity> {
-        val defaultNamingKey: TranslationKey
+        val defaultNamingKey: String
     }
 }
 
 fun Entity.Type<*>.naming(
     key: TranslationKey? = null,
     qualifier: TranslationKey? = null,
+    zone: Zone? = null,
 ): EntityNaming = EntityNaming(
-    key = key ?: defaultNamingKey,
+    key = key ?: TranslationKey(value = createTranslationKey(defaultNamingKey, zone)),
     qualifier = qualifier,
 )
+
+internal fun createTranslationKey(defaultNamingKey: String, zone: Zone?): String =
+    when {
+        zone is Zone -> "${defaultNamingKey}.${zone.name.key}"
+        else -> defaultNamingKey
+    }
 
 val KClass<*>.formattedName: String get() = this.qualifiedName!!
     .replace("network.marsys.smarthome.domain.entity", "")

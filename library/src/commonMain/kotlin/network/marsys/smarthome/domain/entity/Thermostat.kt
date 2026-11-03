@@ -3,7 +3,6 @@ package network.marsys.smarthome.domain.entity
 import network.marsys.smarthome.domain.capability.Capability
 import network.marsys.smarthome.domain.capability.Capability.Context
 import network.marsys.smarthome.domain.capability.ChildLock
-import network.marsys.smarthome.domain.capability.MeasureDataSize
 import network.marsys.smarthome.domain.capability.MeasureTemperature
 import network.marsys.smarthome.domain.capability.OnOff
 import network.marsys.smarthome.domain.capability.ScheduledMode
@@ -11,12 +10,13 @@ import network.marsys.smarthome.domain.capability.TargetTemperature
 import network.marsys.smarthome.domain.capability.ThermostatMode
 import network.marsys.smarthome.domain.capability.ThermostatStatus
 import network.marsys.smarthome.domain.capability.WindowDetection
-import network.marsys.smarthome.domain.i18n.TranslationKey
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 data class Thermostat(
     override val identifier: EntityIdentifier,
     override val naming: EntityNaming = Thermostat.naming(),
     override val state: Entity.State = State.Unknown,
+    override val zone: ZoneIdentifier? = null,
 ) : Entity, Entity.Activatable {
     override val type: Entity.Type<*> = Thermostat
 
@@ -131,6 +131,6 @@ data class Thermostat(
     }
 
     companion object : Entity.Type<Thermostat> {
-        override val defaultNamingKey = TranslationKey("thermostat")
+        override val defaultNamingKey = "thermostat"
     }
 }

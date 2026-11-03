@@ -7,6 +7,7 @@ import dev.nmarsman.expect.assertions.hasMessage
 import dev.nmarsman.expect.assertions.isA
 import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isNull
+import network.marsys.smarthome.domain.TranslationKey
 import network.marsys.smarthome.domain.capability.Capability.Companion.optional
 import network.marsys.smarthome.domain.capability.Capability.Companion.required
 import network.marsys.smarthome.domain.capability.MeasureLoad
@@ -16,16 +17,37 @@ import network.marsys.smarthome.domain.capability.Opened
 import network.marsys.smarthome.domain.capability.Position
 import network.marsys.smarthome.domain.entity.Cover.Control
 import network.marsys.smarthome.domain.unit.percent
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 val CurtainTest by testSuite(
     name = "Curtain test",
 ) {
+    test(name = "Constructing a curtain with no zone identifier succeeds") {
+        val curtain = Curtain(identifier = EntityIdentifier("test.curtain"))
+
+        expectThat(curtain)
+            .get(Curtain::zone)
+            .isNull()
+    }
+
+    test(name = "Constructing a curtain with a zone identifier succeeds") {
+        val curtain = Curtain(
+            identifier = EntityIdentifier("test.curtain"),
+            zone = ZoneIdentifier("zone.test"),
+        )
+
+        expectThat(curtain)
+            .get(Curtain::zone)
+            .isA<ZoneIdentifier>()
+    }
+
     test(name = "Constructing a curtain with no naming key uses the default naming key") {
         val curtain = Curtain(identifier = EntityIdentifier("test.curtain"))
 
         expectThat(curtain)
             .get(Entity::naming)
             .get(EntityNaming::key)
+            .get(TranslationKey::value)
             .isEqualTo(Curtain.defaultNamingKey)
     }
 

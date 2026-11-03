@@ -9,15 +9,36 @@ import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isNull
 import dev.nmarsman.expect.assertions.isTrue
+import network.marsys.smarthome.domain.TranslationKey
 import network.marsys.smarthome.domain.capability.Brightness
 import network.marsys.smarthome.domain.capability.Capability.Companion.required
 import network.marsys.smarthome.domain.capability.MeasureLoad
 import network.marsys.smarthome.domain.capability.OnOff
 import network.marsys.smarthome.domain.unit.percent
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 val SmartLockTest by testSuite(
     name = "SmartLock tests",
 ) {
+    test(name = "Constructing a smart lock with no zone identifier succeeds") {
+        val lock = SmartLock(identifier = EntityIdentifier("test.lock"))
+
+        expectThat(lock)
+            .get(SmartLock::zone)
+            .isNull()
+    }
+
+    test(name = "Constructing a smart lock with a zone identifier succeeds") {
+        val lock = SmartLock(
+            identifier = EntityIdentifier("test.lock"),
+            zone = ZoneIdentifier("zone.test"),
+        )
+
+        expectThat(lock)
+            .get(SmartLock::zone)
+            .isA<ZoneIdentifier>()
+    }
+
     test(name = "Constructing a smart-lock with no naming key uses the default naming key") {
         val entity = SmartLock(
             identifier = EntityIdentifier("test.smart-lock"),
@@ -26,6 +47,7 @@ val SmartLockTest by testSuite(
         expectThat(entity)
             .get(Entity::naming)
             .get(EntityNaming::key)
+            .get(TranslationKey::value)
             .isEqualTo(SmartLock.defaultNamingKey)
     }
 

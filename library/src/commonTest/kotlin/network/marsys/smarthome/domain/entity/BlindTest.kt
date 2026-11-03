@@ -6,6 +6,8 @@ import dev.nmarsman.expect.api.expectThrows
 import dev.nmarsman.expect.assertions.hasMessage
 import dev.nmarsman.expect.assertions.isA
 import dev.nmarsman.expect.assertions.isEqualTo
+import dev.nmarsman.expect.assertions.isNull
+import network.marsys.smarthome.domain.TranslationKey
 import network.marsys.smarthome.domain.capability.Capability.Companion.optional
 import network.marsys.smarthome.domain.capability.Capability.Companion.required
 import network.marsys.smarthome.domain.capability.MeasureLoad
@@ -15,16 +17,37 @@ import network.marsys.smarthome.domain.capability.Opened
 import network.marsys.smarthome.domain.capability.Position
 import network.marsys.smarthome.domain.entity.Cover.Control
 import network.marsys.smarthome.domain.unit.percent
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 val BlindTest by testSuite(
     name = "Blind test",
 ) {
+    test(name = "Constructing a blind with no zone identifier succeeds") {
+        val blind = Blind(identifier = EntityIdentifier("test.blind"))
+
+        expectThat(blind)
+            .get(Blind::zone)
+            .isNull()
+    }
+
+    test(name = "Constructing a blind with a zone identifier succeeds") {
+        val blind = Blind(
+            identifier = EntityIdentifier("test.blind"),
+            zone = ZoneIdentifier("zone.test"),
+        )
+
+        expectThat(blind)
+            .get(Blind::zone)
+            .isA<ZoneIdentifier>()
+    }
+
     test(name = "Constructing a blind with no naming key uses the default naming key") {
         val blind = Blind(identifier = EntityIdentifier("test.blind"))
 
         expectThat(blind)
             .get(Entity::naming)
             .get(EntityNaming::key)
+            .get(TranslationKey::value)
             .isEqualTo(Blind.defaultNamingKey)
     }
 

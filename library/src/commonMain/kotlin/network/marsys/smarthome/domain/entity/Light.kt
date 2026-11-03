@@ -4,12 +4,13 @@ import network.marsys.smarthome.domain.capability.Brightness
 import network.marsys.smarthome.domain.capability.Capability
 import network.marsys.smarthome.domain.capability.Capability.Context
 import network.marsys.smarthome.domain.capability.OnOff
-import network.marsys.smarthome.domain.i18n.TranslationKey
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 data class Light(
     override val identifier: EntityIdentifier,
     override val naming: EntityNaming = Light.naming(),
     override val state: Entity.State = State.Unknown,
+    override val zone: ZoneIdentifier? = null,
 ) : Entity, Entity.Activatable {
     override val active: Boolean
         get() = state is State.Known && state.onOff.value.current
@@ -41,6 +42,6 @@ data class Light(
     }
 
     companion object : Entity.Type<Light> {
-        override val defaultNamingKey = TranslationKey("light")
+        override val defaultNamingKey = "light"
     }
 }

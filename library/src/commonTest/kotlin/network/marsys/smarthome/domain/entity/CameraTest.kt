@@ -9,15 +9,36 @@ import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isNull
 import dev.nmarsman.expect.assertions.isTrue
+import network.marsys.smarthome.domain.TranslationKey
 import network.marsys.smarthome.domain.capability.Brightness
 import network.marsys.smarthome.domain.capability.Capability.Companion.required
 import network.marsys.smarthome.domain.capability.MeasureLoad
 import network.marsys.smarthome.domain.capability.OnOff
 import network.marsys.smarthome.domain.unit.percent
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 val CameraTest by testSuite(
     name = "Camera tests",
 ) {
+    test(name = "Constructing a camera with no zone identifier succeeds") {
+        val camera = Camera(identifier = EntityIdentifier("test.camera"))
+
+        expectThat(camera)
+            .get(Camera::zone)
+            .isNull()
+    }
+
+    test(name = "Constructing a camera with a zone identifier succeeds") {
+        val camera = Camera(
+            identifier = EntityIdentifier("test.camera"),
+            zone = ZoneIdentifier("zone.test"),
+        )
+
+        expectThat(camera)
+            .get(Camera::zone)
+            .isA<ZoneIdentifier>()
+    }
+
     test(name = "Constructing a camera with no naming key uses the default naming key") {
         val entity = Camera(
             identifier = EntityIdentifier("test.camera"),
@@ -26,6 +47,7 @@ val CameraTest by testSuite(
         expectThat(entity)
             .get(Entity::naming)
             .get(EntityNaming::key)
+            .get(TranslationKey::value)
             .isEqualTo(Camera.defaultNamingKey)
     }
 

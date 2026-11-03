@@ -9,6 +9,7 @@ import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isNull
 import dev.nmarsman.expect.assertions.isTrue
+import network.marsys.smarthome.domain.TranslationKey
 import network.marsys.smarthome.domain.capability.Brightness
 import network.marsys.smarthome.domain.capability.Capability
 import network.marsys.smarthome.domain.capability.Capability.Companion.optional
@@ -26,10 +27,30 @@ import network.marsys.smarthome.domain.capability.WindowDetection
 import network.marsys.smarthome.domain.unit.celsius
 import network.marsys.smarthome.domain.unit.gigabytes
 import network.marsys.smarthome.domain.unit.percent
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 val ThermostatTest by testSuite(
     name = "Thermostat tests",
 ) {
+    test(name = "Constructing a thermostat with no zone identifier succeeds") {
+        val thermostat = Thermostat(identifier = EntityIdentifier("test.thermostat"))
+
+        expectThat(thermostat)
+            .get(Thermostat::zone)
+            .isNull()
+    }
+
+    test(name = "Constructing a thermostat with a zone identifier succeeds") {
+        val thermostat = Thermostat(
+            identifier = EntityIdentifier("test.thermostat"),
+            zone = ZoneIdentifier("zone.test"),
+        )
+
+        expectThat(thermostat)
+            .get(Thermostat::zone)
+            .isA<ZoneIdentifier>()
+    }
+
     test(name = "Constructing a thermostat with no naming key uses the default naming key") {
         val entity = Thermostat(
             identifier = EntityIdentifier("test.thermostat"),
@@ -38,6 +59,7 @@ val ThermostatTest by testSuite(
         expectThat(entity)
             .get(Entity::naming)
             .get(EntityNaming::key)
+            .get(TranslationKey::value)
             .isEqualTo(Thermostat.defaultNamingKey)
     }
 

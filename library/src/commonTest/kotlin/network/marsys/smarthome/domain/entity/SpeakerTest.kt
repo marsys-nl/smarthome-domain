@@ -9,15 +9,36 @@ import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isNull
 import dev.nmarsman.expect.assertions.isTrue
+import network.marsys.smarthome.domain.TranslationKey
 import network.marsys.smarthome.domain.capability.Brightness
 import network.marsys.smarthome.domain.capability.Capability.Companion.required
 import network.marsys.smarthome.domain.capability.MeasureLoad
 import network.marsys.smarthome.domain.capability.OnOff
 import network.marsys.smarthome.domain.unit.percent
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 val SpeakerTest by testSuite(
     name = "Speaker tests",
 ) {
+    test(name = "Constructing a speaker with no zone identifier succeeds") {
+        val speaker = Speaker(identifier = EntityIdentifier("test.speaker"))
+
+        expectThat(speaker)
+            .get(Speaker::zone)
+            .isNull()
+    }
+
+    test(name = "Constructing a speaker with a zone identifier succeeds") {
+        val speaker = Speaker(
+            identifier = EntityIdentifier("test.speaker"),
+            zone = ZoneIdentifier("zone.test"),
+        )
+
+        expectThat(speaker)
+            .get(Speaker::zone)
+            .isA<ZoneIdentifier>()
+    }
+
     test(name = "Constructing a speaker with no naming key uses the default naming key") {
         val entity = Speaker(
             identifier = EntityIdentifier("test.speaker"),
@@ -26,6 +47,7 @@ val SpeakerTest by testSuite(
         expectThat(entity)
             .get(Entity::naming)
             .get(EntityNaming::key)
+            .get(TranslationKey::value)
             .isEqualTo(Speaker.defaultNamingKey)
     }
 

@@ -9,15 +9,36 @@ import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isNull
 import dev.nmarsman.expect.assertions.isTrue
+import network.marsys.smarthome.domain.TranslationKey
 import network.marsys.smarthome.domain.capability.Brightness
 import network.marsys.smarthome.domain.capability.Capability.Companion.required
 import network.marsys.smarthome.domain.capability.MeasureLoad
 import network.marsys.smarthome.domain.capability.OnOff
 import network.marsys.smarthome.domain.unit.percent
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 val FanTest by testSuite(
     name = "Fan tests",
 ) {
+    test(name = "Constructing a fan with no zone identifier succeeds") {
+        val fan = Fan(identifier = EntityIdentifier("test.fan"))
+
+        expectThat(fan)
+            .get(Fan::zone)
+            .isNull()
+    }
+
+    test(name = "Constructing a fan with a zone identifier succeeds") {
+        val fan = Fan(
+            identifier = EntityIdentifier("test.fan"),
+            zone = ZoneIdentifier("zone.test"),
+        )
+
+        expectThat(fan)
+            .get(Fan::zone)
+            .isA<ZoneIdentifier>()
+    }
+
     test(name = "Constructing a fan with no naming key uses the default naming key") {
         val entity = Fan(
             identifier = EntityIdentifier("test.fan"),
@@ -26,6 +47,7 @@ val FanTest by testSuite(
         expectThat(entity)
             .get(Entity::naming)
             .get(EntityNaming::key)
+            .get(TranslationKey::value)
             .isEqualTo(Fan.defaultNamingKey)
     }
 

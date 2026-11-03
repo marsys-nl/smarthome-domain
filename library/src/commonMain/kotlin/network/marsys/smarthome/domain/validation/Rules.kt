@@ -1,6 +1,7 @@
 package network.marsys.smarthome.domain.validation
 
 import network.marsys.smarthome.domain.identifiers.IntegrationIdentifier
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 internal fun interface Rule {
     fun check(value: String, subject: String)
@@ -113,6 +114,7 @@ internal object Rules {
 
 internal val RESERVED_NAMESPACES = listOf(
     IntegrationIdentifier.PREFIX,
+    ZoneIdentifier.PREFIX,
 )
 
 internal val LETTERS = 'a'..'z'

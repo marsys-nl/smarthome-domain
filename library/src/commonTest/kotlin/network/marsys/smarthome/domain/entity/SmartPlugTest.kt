@@ -9,15 +9,36 @@ import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isNull
 import dev.nmarsman.expect.assertions.isTrue
+import network.marsys.smarthome.domain.TranslationKey
 import network.marsys.smarthome.domain.capability.Brightness
 import network.marsys.smarthome.domain.capability.Capability.Companion.required
 import network.marsys.smarthome.domain.capability.MeasureLoad
 import network.marsys.smarthome.domain.capability.OnOff
 import network.marsys.smarthome.domain.unit.percent
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 val SmartPlugTest by testSuite(
     name = "Smart plug tests",
 ) {
+    test(name = "Constructing a smart plug with no zone identifier succeeds") {
+        val plug = SmartPlug(identifier = EntityIdentifier("test.smart-plug"))
+
+        expectThat(plug)
+            .get(SmartPlug::zone)
+            .isNull()
+    }
+
+    test(name = "Constructing a smart plug with a zone identifier succeeds") {
+        val plug = SmartPlug(
+            identifier = EntityIdentifier("test.smart-plug"),
+            zone = ZoneIdentifier("zone.test"),
+        )
+
+        expectThat(plug)
+            .get(SmartPlug::zone)
+            .isA<ZoneIdentifier>()
+    }
+
     test(name = "Constructing a smart plug with no naming key uses the default naming key") {
         val entity = SmartPlug(
             identifier = EntityIdentifier("test.smart-plug"),
@@ -26,6 +47,7 @@ val SmartPlugTest by testSuite(
         expectThat(entity)
             .get(Entity::naming)
             .get(EntityNaming::key)
+            .get(TranslationKey::value)
             .isEqualTo(SmartPlug.defaultNamingKey)
     }
 
