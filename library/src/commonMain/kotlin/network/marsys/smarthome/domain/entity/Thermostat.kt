@@ -18,6 +18,8 @@ data class Thermostat(
     override val naming: EntityNaming = Thermostat.naming(),
     override val state: Entity.State = State.Unknown,
 ) : Entity, Entity.Activatable {
+    override val type: Entity.Type<*> = Thermostat
+
     override val active: Boolean
         get() = state is State.Known && state.status.value.current in setOf(
             ThermostatStatus.Status.Heating,

@@ -1,7 +1,6 @@
 package network.marsys.smarthome.domain.entity
 
 import network.marsys.smarthome.domain.capability.Capability
-import network.marsys.smarthome.domain.capability.Capability.Context
 import network.marsys.smarthome.domain.capability.Movement
 import network.marsys.smarthome.domain.capability.Opened
 import network.marsys.smarthome.domain.capability.Position
@@ -14,6 +13,8 @@ data class Blind(
 ) : Cover() {
     override val orientation: Orientation
         get() = Orientation.Vertical
+
+    override val type: Entity.Type<*> = Blind
 
     sealed interface State : Cover.State {
         data class Known(

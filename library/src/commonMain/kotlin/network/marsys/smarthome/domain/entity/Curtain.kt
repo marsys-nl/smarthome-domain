@@ -15,6 +15,8 @@ data class Curtain(
     override val orientation: Orientation
         get() = Orientation.Horizontal
 
+    override val type: Entity.Type<*> = Curtain
+
     sealed interface State : Cover.State {
         data class Known(
             override val control: Control,

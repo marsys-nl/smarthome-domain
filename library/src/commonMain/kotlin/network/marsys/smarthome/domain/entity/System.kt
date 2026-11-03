@@ -13,6 +13,8 @@ data class System(
     override val naming: EntityNaming = System.naming(),
     override val state: Entity.State = State.Unknown,
 ) : Entity {
+    override val type: Entity.Type<*> = System
+
     sealed interface State : Entity.State {
         data class Known(
             val host: Host,
