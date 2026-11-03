@@ -15,6 +15,8 @@ data class Shutter(
     override val orientation: Orientation
         get() = Orientation.Vertical
 
+    override val type: Entity.Type<*> = Shutter
+
     sealed interface State : Cover.State {
         data class Known(
             override val control: Control,

@@ -13,6 +13,8 @@ data class SmartLock(
     override val active: Boolean
         get() = state is State.Known && state.onOff.value.current
 
+    override val type: Entity.Type<*> = SmartLock
+
     sealed interface State : Entity.State {
         data class Known(
             val onOff: Capability.Required<OnOff>,

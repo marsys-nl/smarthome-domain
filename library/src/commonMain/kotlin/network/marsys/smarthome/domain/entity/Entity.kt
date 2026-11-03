@@ -9,6 +9,7 @@ sealed interface Entity {
     val identifier: EntityIdentifier
     val naming: EntityNaming
     val state: State
+    val type: Type<*>
 
     sealed interface State {
         fun find(type: Capability.Type<*>, context: Context = Context.Empty): Capability<*, *>?
