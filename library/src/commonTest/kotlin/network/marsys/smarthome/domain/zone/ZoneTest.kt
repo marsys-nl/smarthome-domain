@@ -18,7 +18,7 @@ val ZoneTest by testSuite(
         test(name = "When a zone is provided, a merged naming key is used") {
             val zone = Zone(
                 identifier = ZoneIdentifier("zone.bedroom"),
-                name = ZoneNaming(key = TranslationKey("bedroom")),
+                naming = ZoneNaming(key = TranslationKey("bedroom")),
             )
 
             expectThat(zone.entity(type = Light))
@@ -30,7 +30,7 @@ val ZoneTest by testSuite(
         test(name = "When no qualifier key is provided, the qualifier key is null") {
             val zone = Zone(
                 identifier = ZoneIdentifier("zone.bedroom"),
-                name = ZoneNaming(key = TranslationKey("bedroom")),
+                naming = ZoneNaming(key = TranslationKey("bedroom")),
             )
 
             expectThat(zone.entity(type = Light))
@@ -41,7 +41,7 @@ val ZoneTest by testSuite(
         test(name = "When a qualifier key is provided, the qualifier key is filled") {
             val zone = Zone(
                 identifier = ZoneIdentifier("zone.bedroom"),
-                name = ZoneNaming(key = TranslationKey("bedroom")),
+                naming = ZoneNaming(key = TranslationKey("bedroom")),
             )
 
             expectThat(zone.entity(type = Light, qualifier = TranslationKey("ceiling")))

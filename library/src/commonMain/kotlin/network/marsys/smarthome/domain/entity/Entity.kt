@@ -63,7 +63,7 @@ fun Entity.Type<*>.naming(
 
 internal fun createTranslationKey(defaultNamingKey: String, zone: Zone?): String =
     when {
-        zone is Zone -> "${defaultNamingKey}.${zone.name.key}"
+        zone is Zone -> "${defaultNamingKey}.${zone.naming.key}"
         else -> defaultNamingKey
     }
 
