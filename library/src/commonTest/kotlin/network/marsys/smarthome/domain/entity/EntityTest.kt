@@ -54,7 +54,7 @@ val EntityTest by testSuite(
         test(name = "When no naming key, but a zone is provided, a merged naming key is used") {
             val zone = Zone(
                 identifier = ZoneIdentifier(value = "zone.bedroom"),
-                name = ZoneNaming(key = TranslationKey(value = "bedroom")),
+                naming = ZoneNaming(key = TranslationKey(value = "bedroom")),
             )
 
             expectThat(Light.naming(zone = zone))

@@ -7,7 +7,7 @@ import network.marsys.smarthome.domain.entity.createTranslationKey
 
 data class Zone(
     val identifier: ZoneIdentifier,
-    val name: ZoneNaming,
+    val naming: ZoneNaming,
 )
 
 fun Zone.entity(
