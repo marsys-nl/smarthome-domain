@@ -6,8 +6,11 @@ import dev.nmarsman.expect.assertions.isA
 import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isNotNull
 import dev.nmarsman.expect.assertions.isNull
+import network.marsys.smarthome.domain.TranslationKey
 import network.marsys.smarthome.domain.capability.OnOff
-import network.marsys.smarthome.domain.i18n.TranslationKey
+import network.marsys.smarthome.domain.zone.Zone
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
+import network.marsys.smarthome.domain.zone.ZoneNaming
 
 val EntityTest by testSuite(
     name = "Entity tests",
@@ -37,6 +40,7 @@ val EntityTest by testSuite(
         test(name = "When no naming key is provided, the default naming key is used") {
             expectThat(Light.naming())
                 .get(EntityNaming::key)
+                .get(TranslationKey::value)
                 .isEqualTo(Light.defaultNamingKey)
         }
 
@@ -45,6 +49,18 @@ val EntityTest by testSuite(
                 .get(EntityNaming::key)
                 .get(TranslationKey::value)
                 .isEqualTo("custom.key")
+        }
+
+        test(name = "When no naming key, but a zone is provided, a merged naming key is used") {
+            val zone = Zone(
+                identifier = ZoneIdentifier(value = "zone.bedroom"),
+                name = ZoneNaming(key = TranslationKey(value = "bedroom")),
+            )
+
+            expectThat(Light.naming(zone = zone))
+                .get(EntityNaming::key)
+                .get(TranslationKey::value)
+                .isEqualTo("${Light.defaultNamingKey}.bedroom")
         }
 
         test(name = "When no qualifier is provided, the qualifier is null") {

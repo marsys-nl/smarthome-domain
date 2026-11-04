@@ -5,7 +5,6 @@ import network.marsys.smarthome.domain.capability.Capability.Context
 import network.marsys.smarthome.domain.capability.MeasureDataSize
 import network.marsys.smarthome.domain.capability.MeasureLoad
 import network.marsys.smarthome.domain.capability.MeasureTemperature
-import network.marsys.smarthome.domain.i18n.TranslationKey
 import kotlin.time.Instant
 
 data class System(
@@ -151,6 +150,6 @@ data class System(
     }
 
     companion object : Entity.Type<System> {
-        override val defaultNamingKey = TranslationKey("system")
+        override val defaultNamingKey = "system"
     }
 }

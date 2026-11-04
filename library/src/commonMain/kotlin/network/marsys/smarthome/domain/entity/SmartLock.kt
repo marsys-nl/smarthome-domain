@@ -3,12 +3,13 @@ package network.marsys.smarthome.domain.entity
 import network.marsys.smarthome.domain.capability.Capability
 import network.marsys.smarthome.domain.capability.Capability.Context
 import network.marsys.smarthome.domain.capability.OnOff
-import network.marsys.smarthome.domain.i18n.TranslationKey
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 data class SmartLock(
     override val identifier: EntityIdentifier,
     override val naming: EntityNaming = SmartLock.naming(),
     override val state: Entity.State = State.Unknown,
+    override val zone: ZoneIdentifier? = null,
 ) : Entity, Entity.Activatable {
     override val active: Boolean
         get() = state is State.Known && state.onOff.value.current
@@ -37,6 +38,6 @@ data class SmartLock(
     }
 
     companion object : Entity.Type<SmartLock> {
-        override val defaultNamingKey = TranslationKey("smart-lock")
+        override val defaultNamingKey = "smart-lock"
     }
 }

@@ -1,4 +1,4 @@
-package network.marsys.smarthome.domain.i18n
+package network.marsys.smarthome.domain
 
 import network.marsys.smarthome.domain.validation.LETTERS
 import network.marsys.smarthome.domain.validation.Rules

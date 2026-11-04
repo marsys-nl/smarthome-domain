@@ -1,16 +1,16 @@
 package network.marsys.smarthome.domain.entity
 
 import network.marsys.smarthome.domain.capability.Capability
-import network.marsys.smarthome.domain.capability.Capability.Context
 import network.marsys.smarthome.domain.capability.Movement
 import network.marsys.smarthome.domain.capability.Opened
 import network.marsys.smarthome.domain.capability.Position
-import network.marsys.smarthome.domain.i18n.TranslationKey
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 data class Shutter(
     override val identifier: EntityIdentifier,
     override val naming: EntityNaming = Shutter.naming(),
     override val state: State = State.Unknown,
+    override val zone: ZoneIdentifier? = null,
 ) : Cover() {
     override val orientation: Orientation
         get() = Orientation.Vertical
@@ -34,6 +34,6 @@ data class Shutter(
     }
 
     companion object : Entity.Type<Shutter> {
-        override val defaultNamingKey = TranslationKey("shutter")
+        override val defaultNamingKey = "shutter"
     }
 }

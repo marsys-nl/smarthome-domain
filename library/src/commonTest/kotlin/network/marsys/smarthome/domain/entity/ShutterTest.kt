@@ -7,6 +7,7 @@ import dev.nmarsman.expect.assertions.hasMessage
 import dev.nmarsman.expect.assertions.isA
 import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isNull
+import network.marsys.smarthome.domain.TranslationKey
 import network.marsys.smarthome.domain.capability.Capability.Companion.optional
 import network.marsys.smarthome.domain.capability.Capability.Companion.required
 import network.marsys.smarthome.domain.capability.MeasureLoad
@@ -16,16 +17,37 @@ import network.marsys.smarthome.domain.capability.Opened
 import network.marsys.smarthome.domain.capability.Position
 import network.marsys.smarthome.domain.entity.Cover.Control
 import network.marsys.smarthome.domain.unit.percent
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 val ShutterTest by testSuite(
     name = "Shutter test",
 ) {
+    test(name = "Constructing a shutter with no zone identifier succeeds") {
+        val shutter = Shutter(identifier = EntityIdentifier("test.shutter"))
+
+        expectThat(shutter)
+            .get(Shutter::zone)
+            .isNull()
+    }
+
+    test(name = "Constructing a shutter with a zone identifier succeeds") {
+        val shutter = Shutter(
+            identifier = EntityIdentifier("test.shutter"),
+            zone = ZoneIdentifier("zone.test"),
+        )
+
+        expectThat(shutter)
+            .get(Shutter::zone)
+            .isA<ZoneIdentifier>()
+    }
+
     test(name = "Constructing a shutter with no naming key uses the default naming key") {
         val shutter = Shutter(identifier = EntityIdentifier("test.shutter"))
 
         expectThat(shutter)
             .get(Entity::naming)
             .get(EntityNaming::key)
+            .get(TranslationKey::value)
             .isEqualTo(Shutter.defaultNamingKey)
     }
 

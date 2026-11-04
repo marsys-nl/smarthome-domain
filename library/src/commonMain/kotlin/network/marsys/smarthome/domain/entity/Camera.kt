@@ -3,12 +3,13 @@ package network.marsys.smarthome.domain.entity
 import network.marsys.smarthome.domain.capability.Capability
 import network.marsys.smarthome.domain.capability.Capability.Context
 import network.marsys.smarthome.domain.capability.OnOff
-import network.marsys.smarthome.domain.i18n.TranslationKey
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
 data class Camera(
     override val identifier: EntityIdentifier,
     override val naming: EntityNaming = Camera.naming(),
     override val state: Entity.State = State.Unknown,
+    override val zone: ZoneIdentifier? = null,
 ) : Entity, Entity.Activatable {
     override val active: Boolean
         get() = state is State.Known && state.onOff.value.current
@@ -37,6 +38,6 @@ data class Camera(
     }
 
     companion object : Entity.Type<Camera> {
-        override val defaultNamingKey = TranslationKey("camera")
+        override val defaultNamingKey = "camera"
     }
 }

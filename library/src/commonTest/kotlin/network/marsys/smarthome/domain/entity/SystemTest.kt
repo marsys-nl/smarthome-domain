@@ -9,6 +9,7 @@ import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isNull
 import dev.nmarsman.expect.assertions.isTrue
+import network.marsys.smarthome.domain.TranslationKey
 import network.marsys.smarthome.domain.capability.Brightness
 import network.marsys.smarthome.domain.capability.Capability
 import network.marsys.smarthome.domain.capability.Capability.Companion.optional
@@ -20,11 +21,20 @@ import network.marsys.smarthome.domain.capability.OnOff
 import network.marsys.smarthome.domain.unit.celsius
 import network.marsys.smarthome.domain.unit.gigabytes
 import network.marsys.smarthome.domain.unit.percent
+import network.marsys.smarthome.domain.zone.ZoneIdentifier
 import kotlin.time.Instant
 
 val SystemTest by testSuite(
     name = "System tests",
 ) {
+    test(name = "Constructing a system by default has no zone") {
+        val system = System(identifier = EntityIdentifier("test.system"))
+
+        expectThat(system)
+            .get(System::zone)
+            .isNull()
+    }
+
     test(name = "Constructing a system with no naming key uses the default naming key") {
         val entity = System(
             identifier = EntityIdentifier("test.system"),
@@ -33,6 +43,7 @@ val SystemTest by testSuite(
         expectThat(entity)
             .get(Entity::naming)
             .get(EntityNaming::key)
+            .get(TranslationKey::value)
             .isEqualTo(System.defaultNamingKey)
     }
 
