@@ -164,8 +164,38 @@ sealed class Capability<T : Any, S : Capability<T, S>> {
     }
 
     /*
+     * Query
+     */
+
+    sealed interface Query<C : Capability<*, *>> {
+        val type: Type<C>
+        val context: Context
+
+        private data class Combined<C : Capability<*, *>>(
+            override val type: Type<C>,
+            override val context: Context,
+        ) : Query<C>
+
+        companion object {
+            operator fun <C : Capability<*, *>> invoke(
+                type: Type<C>,
+                context: Context,
+            ): Query<C> = Combined(type = type, context = context)
+        }
+    }
+
+    /*
      * Type
      */
 
-    interface Type<C : Capability<*, *>>
+    interface Type<C : Capability<*, *>> : Query<C> {
+        override val type: Type<C>
+            get() = this
+
+        override val context: Context
+            get() = Context.Empty
+    }
 }
+
+infix fun <C : Capability<*, *>> Capability.Type<C>.with(context: Capability.Context): Capability.Query<C> =
+    Capability.Query(type = this, context = context)

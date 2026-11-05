@@ -1,7 +1,6 @@
 package network.marsys.smarthome.domain.entity
 
 import network.marsys.smarthome.domain.capability.Capability
-import network.marsys.smarthome.domain.capability.Capability.Context
 import network.marsys.smarthome.domain.capability.Movement
 import network.marsys.smarthome.domain.capability.Opened
 import network.marsys.smarthome.domain.capability.Position
@@ -20,11 +19,11 @@ sealed class Cover : Entity {
         sealed interface Known : State, Entity.State.Known {
             val control: Control
 
-            override fun find(type: Capability.Type<*>, context: Context): Capability<*, *>? {
+            override fun find(query: Capability.Query<*>): Capability<*, *>? {
                 val movement = control.movement
                 val position = control.position
 
-                return when (type) {
+                return when (query.type) {
                     Movement if movement is Capability.Available<Movement> ->
                         movement.value
 

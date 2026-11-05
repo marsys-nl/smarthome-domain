@@ -21,18 +21,18 @@ data class System(
             val memory: Memory,
             val startedAt: StartedAt,
         ) : State, Entity.State.Known {
-            override fun find(type: Capability.Type<*>, context: Context): Capability<*, *>? =
-                when (type) {
-                    MeasureDataSize if MemoryType.Total in context ->
+            override fun find(query: Capability.Query<*>): Capability<*, *>? =
+                when (query.type) {
+                    MeasureDataSize if MemoryType.Total in query.context ->
                         memory.total.value
 
-                    MeasureDataSize if MemoryType.Available in context ->
+                    MeasureDataSize if MemoryType.Available in query.context ->
                         memory.available.value
 
-                    MeasureDataSize if MemoryType.SwapTotal in context ->
+                    MeasureDataSize if MemoryType.SwapTotal in query.context ->
                         memory.swap.total.value
 
-                    MeasureDataSize if MemoryType.SwapAvailable in context ->
+                    MeasureDataSize if MemoryType.SwapAvailable in query.context ->
                         memory.swap.available.value
 
                     MeasureDataSize ->

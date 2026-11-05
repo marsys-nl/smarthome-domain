@@ -2,7 +2,6 @@ package network.marsys.smarthome.domain.entity
 
 import network.marsys.smarthome.domain.TranslationKey
 import network.marsys.smarthome.domain.capability.Capability
-import network.marsys.smarthome.domain.capability.Capability.Context
 import network.marsys.smarthome.domain.zone.Zone
 import network.marsys.smarthome.domain.zone.ZoneIdentifier
 import kotlin.reflect.KClass
@@ -17,22 +16,19 @@ sealed interface Entity {
         get() = null
 
     sealed interface State {
-        fun find(type: Capability.Type<*>, context: Context = Context.Empty): Capability<*, *>?
+        fun find(query: Capability.Query<*>): Capability<*, *>?
         fun updateWith(capability: Capability<*, *>): State
 
         sealed interface Known : State
 
         sealed interface Unknown : State {
-            override fun find(type: Capability.Type<*>, context: Context): Capability<*, *>? = null
+            override fun find(query: Capability.Query<*>): Capability<*, *>? = null
             override fun updateWith(capability: Capability<*, *>): State = this
         }
 
         @Suppress("UNCHECKED_CAST")
-        fun <C : Capability<*, *>> get(type: Capability.Type<C>, context: Context = Context.Empty): C? =
-            find(
-                type = type,
-                context = context,
-            ) as? C
+        fun <C : Capability<*, *>> get(query: Capability.Query<C>): C? =
+            find(query = query) as? C
     }
 
     interface Action {
