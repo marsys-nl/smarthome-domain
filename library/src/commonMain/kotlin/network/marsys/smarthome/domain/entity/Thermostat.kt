@@ -49,11 +49,17 @@ data class Thermostat(
 
             override fun find(query: Capability.Query<*>): Capability<*, *>? =
                 when (query.type) {
-                    OnOff -> onOff.value
+                    OnOff ->
+                        onOff.value
 
-                    ThermostatMode -> mode.value
+                    ThermostatMode ->
+                        mode.value
 
-                    TargetTemperature -> temperatures.target.value
+                    ThermostatStatus ->
+                        status.value
+
+                    TargetTemperature ->
+                        temperatures.target.value
 
                     MeasureTemperature if TemperatureType.Current in query.context ->
                         temperatures.current.value

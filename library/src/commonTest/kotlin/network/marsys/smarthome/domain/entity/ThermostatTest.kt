@@ -23,6 +23,7 @@ import network.marsys.smarthome.domain.capability.ScheduledMode
 import network.marsys.smarthome.domain.capability.TargetTemperature
 import network.marsys.smarthome.domain.capability.ThermostatMode
 import network.marsys.smarthome.domain.capability.ThermostatMode.Mode
+import network.marsys.smarthome.domain.capability.ThermostatStatus
 import network.marsys.smarthome.domain.capability.WindowDetection
 import network.marsys.smarthome.domain.capability.with
 import network.marsys.smarthome.domain.unit.celsius
@@ -171,6 +172,19 @@ val ThermostatTest by testSuite(
             expectThat(state)
                 .get { get(ThermostatMode) }
                 .isA<ThermostatMode>()
+        }
+
+        test(name = "Getting thermostat status capability from known state succeeds") {
+            val state = Thermostat.known(
+                onOff = required(OnOff(current = true)),
+                mode = required(ThermostatMode(current = Mode.Auto)),
+                targetTemperature = required(TargetTemperature(current = 25.celsius)),
+                currentTemperature = required(MeasureTemperature(current = 20.celsius)),
+            )
+
+            expectThat(state)
+                .get { get(ThermostatStatus) }
+                .isA<ThermostatStatus>()
         }
 
         test(name = "Getting target temperature capability from known state succeeds") {
