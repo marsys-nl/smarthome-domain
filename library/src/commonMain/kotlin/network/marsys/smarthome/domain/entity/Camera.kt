@@ -1,7 +1,6 @@
 package network.marsys.smarthome.domain.entity
 
 import network.marsys.smarthome.domain.capability.Capability
-import network.marsys.smarthome.domain.capability.Capability.Context
 import network.marsys.smarthome.domain.capability.OnOff
 import network.marsys.smarthome.domain.zone.ZoneIdentifier
 
@@ -20,8 +19,8 @@ data class Camera(
         data class Known(
             val onOff: Capability.Required<OnOff>,
         ) : State, Entity.State.Known {
-            override fun find(type: Capability.Type<*>, context: Context): Capability<*, *>? =
-                when (type) {
+            override fun find(query: Capability.Query<*>): Capability<*, *>? =
+                when (query.type) {
                     OnOff -> onOff.value
                     else -> null
                 }

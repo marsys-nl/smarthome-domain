@@ -47,22 +47,22 @@ data class Thermostat(
                     ),
                 )
 
-            override fun find(type: Capability.Type<*>, context: Context): Capability<*, *>? =
-                when (type) {
+            override fun find(query: Capability.Query<*>): Capability<*, *>? =
+                when (query.type) {
                     OnOff -> onOff.value
 
                     ThermostatMode -> mode.value
 
                     TargetTemperature -> temperatures.target.value
 
-                    MeasureTemperature if TemperatureType.Current in context ->
+                    MeasureTemperature if TemperatureType.Current in query.context ->
                         temperatures.current.value
 
-                    MeasureTemperature if TemperatureType.Outdoor in context &&
+                    MeasureTemperature if TemperatureType.Outdoor in query.context &&
                         temperatures.outdoor is Capability.Available<MeasureTemperature> ->
                         temperatures.outdoor.value
 
-                    MeasureTemperature if TemperatureType.Outdoor !in context ->
+                    MeasureTemperature if TemperatureType.Outdoor !in query.context ->
                         error("Context is required for 'measure temperature' capability")
 
                     ChildLock if childLock is Capability.Available<ChildLock> ->

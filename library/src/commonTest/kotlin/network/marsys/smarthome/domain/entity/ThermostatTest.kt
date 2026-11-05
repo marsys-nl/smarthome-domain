@@ -24,6 +24,7 @@ import network.marsys.smarthome.domain.capability.TargetTemperature
 import network.marsys.smarthome.domain.capability.ThermostatMode
 import network.marsys.smarthome.domain.capability.ThermostatMode.Mode
 import network.marsys.smarthome.domain.capability.WindowDetection
+import network.marsys.smarthome.domain.capability.with
 import network.marsys.smarthome.domain.unit.celsius
 import network.marsys.smarthome.domain.unit.gigabytes
 import network.marsys.smarthome.domain.unit.percent
@@ -195,7 +196,7 @@ val ThermostatTest by testSuite(
             )
 
             expectThat(state)
-                .get { get(MeasureTemperature, context = Thermostat.TemperatureType.Current) }
+                .get { get(MeasureTemperature with Thermostat.TemperatureType.Current) }
                 .isA<MeasureTemperature>()
         }
 
@@ -205,7 +206,7 @@ val ThermostatTest by testSuite(
             )
 
             expectThat(state)
-                .get { get(MeasureTemperature, context = Thermostat.TemperatureType.Outdoor) }
+                .get { get(MeasureTemperature with Thermostat.TemperatureType.Outdoor) }
                 .isA<MeasureTemperature>()
         }
 
@@ -215,7 +216,7 @@ val ThermostatTest by testSuite(
             )
 
             expectThat(state)
-                .get { get(MeasureTemperature, context = Thermostat.TemperatureType.Outdoor) }
+                .get { get(MeasureTemperature with Thermostat.TemperatureType.Outdoor) }
                 .isNull()
         }
 

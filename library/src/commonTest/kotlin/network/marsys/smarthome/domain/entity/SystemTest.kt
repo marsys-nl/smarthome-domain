@@ -18,6 +18,7 @@ import network.marsys.smarthome.domain.capability.MeasureDataSize
 import network.marsys.smarthome.domain.capability.MeasureLoad
 import network.marsys.smarthome.domain.capability.MeasureTemperature
 import network.marsys.smarthome.domain.capability.OnOff
+import network.marsys.smarthome.domain.capability.with
 import network.marsys.smarthome.domain.unit.celsius
 import network.marsys.smarthome.domain.unit.gigabytes
 import network.marsys.smarthome.domain.unit.percent
@@ -99,7 +100,7 @@ val SystemTest by testSuite(
             val state = System.known()
 
             expectThat(state)
-                .get { get(MeasureDataSize, context = System.MemoryType.Total) }
+                .get { get(MeasureDataSize with System.MemoryType.Total) }
                 .isA<MeasureDataSize>()
         }
 
@@ -107,7 +108,7 @@ val SystemTest by testSuite(
             val state = System.known()
 
             expectThat(state)
-                .get { get(MeasureDataSize, context = System.MemoryType.Available) }
+                .get { get(MeasureDataSize with System.MemoryType.Available) }
                 .isA<MeasureDataSize>()
         }
 
@@ -115,7 +116,7 @@ val SystemTest by testSuite(
             val state = System.known()
 
             expectThat(state)
-                .get { get(MeasureDataSize, context = System.MemoryType.SwapTotal) }
+                .get { get(MeasureDataSize with System.MemoryType.SwapTotal) }
                 .isA<MeasureDataSize>()
         }
 
@@ -123,7 +124,7 @@ val SystemTest by testSuite(
             val state = System.known()
 
             expectThat(state)
-                .get { get(MeasureDataSize, context = System.MemoryType.SwapAvailable) }
+                .get { get(MeasureDataSize with System.MemoryType.SwapAvailable) }
                 .isA<MeasureDataSize>()
         }
 
