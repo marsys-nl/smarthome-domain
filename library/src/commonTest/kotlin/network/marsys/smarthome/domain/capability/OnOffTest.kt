@@ -6,6 +6,7 @@ import dev.nmarsman.expect.assertions.isA
 import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isTrue
+import network.marsys.smarthome.domain.entity.EntityIdentifier
 
 val OnOffTest by testSuite(
     name = "OnOff capability tests",
@@ -48,9 +49,27 @@ val OnOffTest by testSuite(
             .isA<Example>()
     }
 
-    test(name = "OnOff capability is of the correct type") {
+    test(name = "On-off capability is of the correct type") {
         expectThat(OnOff(current = true))
             .get(OnOff::type)
             .isEqualTo(OnOff)
+    }
+
+    test(name = "On-off capability on entity action is able to be created") {
+        val action = OnOff.Toggle.On(
+            identifier = EntityIdentifier("light.test"),
+        )
+
+        expectThat(action)
+            .isA<OnOff.Toggle>()
+    }
+
+    test(name = "On-off capability off entity action is able to be created") {
+        val action = OnOff.Toggle.Off(
+            identifier = EntityIdentifier("light.test"),
+        )
+
+        expectThat(action)
+            .isA<OnOff.Toggle>()
     }
 }

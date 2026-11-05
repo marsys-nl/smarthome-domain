@@ -6,7 +6,9 @@ import dev.nmarsman.expect.api.expectThrows
 import dev.nmarsman.expect.assertions.hasMessage
 import dev.nmarsman.expect.assertions.isA
 import dev.nmarsman.expect.assertions.isEqualTo
+import network.marsys.smarthome.domain.entity.EntityIdentifier
 import network.marsys.smarthome.domain.unit.celsius
+import network.marsys.smarthome.domain.unit.percent
 
 val TargetTemperatureTest by testSuite(
     name = "Target temperature capability tests",
@@ -73,5 +75,15 @@ val TargetTemperatureTest by testSuite(
         expectThat(TargetTemperature(current = 30.celsius))
             .get(TargetTemperature::type)
             .isEqualTo(TargetTemperature)
+    }
+
+    test(name = "Set target temperature entity action is able to be created") {
+        val action = TargetTemperature.SetTargetTemperature(
+            identifier = EntityIdentifier("thermostat.test"),
+            temperature = 35.celsius,
+        )
+
+        expectThat(action)
+            .isA<TargetTemperature.SetTargetTemperature>()
     }
 }

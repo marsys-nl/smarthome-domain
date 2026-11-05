@@ -35,6 +35,10 @@ sealed interface Entity {
             ) as? C
     }
 
+    interface Action {
+        val identifier: EntityIdentifier
+    }
+
     /*
      * Traits
      */

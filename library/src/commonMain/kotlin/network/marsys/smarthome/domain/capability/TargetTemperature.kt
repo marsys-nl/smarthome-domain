@@ -1,5 +1,7 @@
 package network.marsys.smarthome.domain.capability
 
+import network.marsys.smarthome.domain.entity.Entity
+import network.marsys.smarthome.domain.entity.EntityIdentifier
 import network.marsys.smarthome.domain.unit.Dimension
 import network.marsys.smarthome.domain.unit.Quantity
 import network.marsys.smarthome.domain.unit.celsius
@@ -23,6 +25,11 @@ data class TargetTemperature(
             current = value,
             context = context,
         )
+
+    data class SetTargetTemperature(
+        override val identifier: EntityIdentifier,
+        val temperature: Quantity<Dimension.Temperature>,
+    ) : Entity.Action
 
     companion object : Type<TargetTemperature> {
         private val MIN_TARGET_TEMPERATURE = 5.celsius

@@ -4,6 +4,7 @@ import de.infix.testBalloon.framework.core.testSuite
 import dev.nmarsman.expect.api.expectThat
 import dev.nmarsman.expect.assertions.isA
 import dev.nmarsman.expect.assertions.isEqualTo
+import network.marsys.smarthome.domain.entity.EntityIdentifier
 import network.marsys.smarthome.domain.unit.percent
 
 val BrightnessTest by testSuite(
@@ -51,5 +52,15 @@ val BrightnessTest by testSuite(
         expectThat(Brightness(current = 50.percent))
             .get(Brightness::type)
             .isEqualTo(Brightness)
+    }
+
+    test(name = "Set brightness entity action is able to be created") {
+        val action = Brightness.SetBrightness(
+            identifier = EntityIdentifier("light.test"),
+            brightness = 50.percent,
+        )
+
+        expectThat(action)
+            .isA<Brightness.SetBrightness>()
     }
 }

@@ -6,6 +6,7 @@ import dev.nmarsman.expect.assertions.isA
 import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isTrue
+import network.marsys.smarthome.domain.entity.EntityIdentifier
 
 val ScheduledModeTest by testSuite(
     name = "Scheduled mode capability tests",
@@ -52,5 +53,23 @@ val ScheduledModeTest by testSuite(
         expectThat(ScheduledMode(current = true))
             .get(ScheduledMode::type)
             .isEqualTo(ScheduledMode)
+    }
+
+    test(name = "Scheduled mode capability on entity action is able to be created") {
+        val action = ScheduledMode.Toggle.On(
+            identifier = EntityIdentifier("thermostat.test"),
+        )
+
+        expectThat(action)
+            .isA<ScheduledMode.Toggle>()
+    }
+
+    test(name = "Scheduled mode capability off entity action is able to be created") {
+        val action = ScheduledMode.Toggle.Off(
+            identifier = EntityIdentifier("thermostat.test"),
+        )
+
+        expectThat(action)
+            .isA<ScheduledMode.Toggle>()
     }
 }

@@ -6,6 +6,7 @@ import dev.nmarsman.expect.assertions.isA
 import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isTrue
+import network.marsys.smarthome.domain.entity.EntityIdentifier
 
 val WindowDetectionTest by testSuite(
     name = "Window detection capability tests",
@@ -52,5 +53,23 @@ val WindowDetectionTest by testSuite(
         expectThat(WindowDetection(current = true))
             .get(WindowDetection::type)
             .isEqualTo(WindowDetection)
+    }
+
+    test(name = "Window detection capability on entity action is able to be created") {
+        val action = WindowDetection.Toggle.On(
+            identifier = EntityIdentifier("thermostat.test"),
+        )
+
+        expectThat(action)
+            .isA<WindowDetection.Toggle>()
+    }
+
+    test(name = "Window detection capability off entity action is able to be created") {
+        val action = WindowDetection.Toggle.Off(
+            identifier = EntityIdentifier("thermostat.test"),
+        )
+
+        expectThat(action)
+            .isA<WindowDetection.Toggle>()
     }
 }

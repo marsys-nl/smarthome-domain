@@ -6,6 +6,7 @@ import dev.nmarsman.expect.assertions.isA
 import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isTrue
+import network.marsys.smarthome.domain.entity.EntityIdentifier
 
 val MovementTest by testSuite(
     name = "Movement capability tests",
@@ -52,5 +53,32 @@ val MovementTest by testSuite(
         expectThat(Movement(current = Movement.Direction.Opening))
             .get(Movement::type)
             .isEqualTo(Movement)
+    }
+
+    test(name = "Movement capability open entity action is able to be created") {
+        val action = Movement.Move.Open(
+            identifier = EntityIdentifier("thermostat.test"),
+        )
+
+        expectThat(action)
+            .isA<Movement.Move>()
+    }
+
+    test(name = "Movement capability close entity action is able to be created") {
+        val action = Movement.Move.Close(
+            identifier = EntityIdentifier("blind.test"),
+        )
+
+        expectThat(action)
+            .isA<Movement.Move>()
+    }
+
+    test(name = "Movement capability stop entity action is able to be created") {
+        val action = Movement.Move.Stop(
+            identifier = EntityIdentifier("blind.test"),
+        )
+
+        expectThat(action)
+            .isA<Movement.Move>()
     }
 }
