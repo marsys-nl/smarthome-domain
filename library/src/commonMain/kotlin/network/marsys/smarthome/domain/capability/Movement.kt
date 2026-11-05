@@ -1,6 +1,8 @@
 package network.marsys.smarthome.domain.capability
 
 import network.marsys.smarthome.domain.capability.Movement.Direction
+import network.marsys.smarthome.domain.entity.Entity
+import network.marsys.smarthome.domain.entity.EntityIdentifier
 
 data class Movement(
     override val current: Direction,
@@ -19,6 +21,20 @@ data class Movement(
         Idle,
         Opening,
         Closing,
+    }
+
+    sealed interface Move : Entity.Action {
+        data class Open(
+            override val identifier: EntityIdentifier,
+        ) : Move
+
+        data class Close(
+            override val identifier: EntityIdentifier,
+        ) : Move
+
+        data class Stop(
+            override val identifier: EntityIdentifier,
+        ) : Move
     }
 
     companion object : Type<Movement>
