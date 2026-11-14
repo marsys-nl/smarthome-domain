@@ -57,7 +57,7 @@ val OnOffTest by testSuite(
 
     test(name = "On-off capability on entity action is able to be created") {
         val action = OnOff.Toggle.On(
-            identifier = EntityIdentifier("light.test"),
+            entity = EntityIdentifier("light.test"),
         )
 
         expectThat(action)
@@ -66,7 +66,7 @@ val OnOffTest by testSuite(
 
     test(name = "On-off capability off entity action is able to be created") {
         val action = OnOff.Toggle.Off(
-            identifier = EntityIdentifier("light.test"),
+            entity = EntityIdentifier("light.test"),
         )
 
         expectThat(action)

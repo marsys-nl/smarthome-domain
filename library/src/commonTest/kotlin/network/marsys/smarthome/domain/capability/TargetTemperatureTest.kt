@@ -8,7 +8,6 @@ import dev.nmarsman.expect.assertions.isA
 import dev.nmarsman.expect.assertions.isEqualTo
 import network.marsys.smarthome.domain.entity.EntityIdentifier
 import network.marsys.smarthome.domain.unit.celsius
-import network.marsys.smarthome.domain.unit.percent
 
 val TargetTemperatureTest by testSuite(
     name = "Target temperature capability tests",
@@ -79,7 +78,7 @@ val TargetTemperatureTest by testSuite(
 
     test(name = "Set target temperature entity action is able to be created") {
         val action = TargetTemperature.SetTargetTemperature(
-            identifier = EntityIdentifier("thermostat.test"),
+            entity = EntityIdentifier("thermostat.test"),
             temperature = 35.celsius,
         )
 

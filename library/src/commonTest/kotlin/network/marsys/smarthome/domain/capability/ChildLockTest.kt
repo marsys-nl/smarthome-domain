@@ -7,7 +7,6 @@ import dev.nmarsman.expect.assertions.isEqualTo
 import dev.nmarsman.expect.assertions.isFalse
 import dev.nmarsman.expect.assertions.isTrue
 import network.marsys.smarthome.domain.entity.EntityIdentifier
-import network.marsys.smarthome.domain.unit.percent
 
 val ChildLockTest by testSuite(
     name = "Child lock capability tests",
@@ -58,7 +57,7 @@ val ChildLockTest by testSuite(
 
     test(name = "Child lock capability on entity action is able to be created") {
         val action = ChildLock.Toggle.On(
-            identifier = EntityIdentifier("thermostat.test"),
+            entity = EntityIdentifier("thermostat.test"),
         )
 
         expectThat(action)
@@ -67,7 +66,7 @@ val ChildLockTest by testSuite(
 
     test(name = "Child lock capability off entity action is able to be created") {
         val action = ChildLock.Toggle.Off(
-            identifier = EntityIdentifier("thermostat.test"),
+            entity = EntityIdentifier("thermostat.test"),
         )
 
         expectThat(action)

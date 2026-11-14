@@ -1,5 +1,7 @@
 package network.marsys.smarthome.domain.capability
 
+import network.marsys.smarthome.domain.entity.Entity
+
 sealed class Capability<T : Any, S : Capability<T, S>> {
     abstract val current: T
     abstract val context: Context
@@ -15,6 +17,14 @@ sealed class Capability<T : Any, S : Capability<T, S>> {
 
     infix fun with(context: Context): S =
         updateWith(value = current, context = this.context + context)
+
+    /*
+     * Action
+     */
+
+    interface Action : Entity.Action {
+        val context: Context
+    }
 
     /*
      * Context

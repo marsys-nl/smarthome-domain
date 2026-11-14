@@ -57,7 +57,7 @@ val ScheduledModeTest by testSuite(
 
     test(name = "Scheduled mode capability on entity action is able to be created") {
         val action = ScheduledMode.Toggle.On(
-            identifier = EntityIdentifier("thermostat.test"),
+            entity = EntityIdentifier("thermostat.test"),
         )
 
         expectThat(action)
@@ -66,7 +66,7 @@ val ScheduledModeTest by testSuite(
 
     test(name = "Scheduled mode capability off entity action is able to be created") {
         val action = ScheduledMode.Toggle.Off(
-            identifier = EntityIdentifier("thermostat.test"),
+            entity = EntityIdentifier("thermostat.test"),
         )
 
         expectThat(action)

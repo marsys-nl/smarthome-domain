@@ -23,17 +23,20 @@ data class Movement(
         Closing,
     }
 
-    sealed interface Move : Entity.Action {
+    sealed interface Move : Action {
         data class Open(
-            override val identifier: EntityIdentifier,
+            override val entity: EntityIdentifier,
+            override val context: Context = Context.Empty,
         ) : Move
 
         data class Close(
-            override val identifier: EntityIdentifier,
+            override val entity: EntityIdentifier,
+            override val context: Context = Context.Empty,
         ) : Move
 
         data class Stop(
-            override val identifier: EntityIdentifier,
+            override val entity: EntityIdentifier,
+            override val context: Context = Context.Empty,
         ) : Move
     }
 

@@ -4,8 +4,6 @@ import de.infix.testBalloon.framework.core.testSuite
 import dev.nmarsman.expect.api.expectThat
 import dev.nmarsman.expect.assertions.isA
 import dev.nmarsman.expect.assertions.isEqualTo
-import dev.nmarsman.expect.assertions.isFalse
-import dev.nmarsman.expect.assertions.isTrue
 import network.marsys.smarthome.domain.entity.EntityIdentifier
 
 val MovementTest by testSuite(
@@ -57,7 +55,7 @@ val MovementTest by testSuite(
 
     test(name = "Movement capability open entity action is able to be created") {
         val action = Movement.Move.Open(
-            identifier = EntityIdentifier("thermostat.test"),
+            entity = EntityIdentifier("thermostat.test"),
         )
 
         expectThat(action)
@@ -66,7 +64,7 @@ val MovementTest by testSuite(
 
     test(name = "Movement capability close entity action is able to be created") {
         val action = Movement.Move.Close(
-            identifier = EntityIdentifier("blind.test"),
+            entity = EntityIdentifier("blind.test"),
         )
 
         expectThat(action)
@@ -75,7 +73,7 @@ val MovementTest by testSuite(
 
     test(name = "Movement capability stop entity action is able to be created") {
         val action = Movement.Move.Stop(
-            identifier = EntityIdentifier("blind.test"),
+            entity = EntityIdentifier("blind.test"),
         )
 
         expectThat(action)

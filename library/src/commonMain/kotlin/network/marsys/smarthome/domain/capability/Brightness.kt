@@ -19,9 +19,10 @@ data class Brightness(
         )
 
     data class SetBrightness(
-        override val identifier: EntityIdentifier,
+        override val entity: EntityIdentifier,
         val brightness: Quantity<Dimension.Ratio>,
-    ) : Entity.Action
+        override val context: Context = Context.Empty,
+    ) : Action
 
     companion object : Type<Brightness>
 }

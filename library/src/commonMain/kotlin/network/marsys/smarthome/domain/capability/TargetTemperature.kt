@@ -27,9 +27,10 @@ data class TargetTemperature(
         )
 
     data class SetTargetTemperature(
-        override val identifier: EntityIdentifier,
+        override val entity: EntityIdentifier,
         val temperature: Quantity<Dimension.Temperature>,
-    ) : Entity.Action
+        override val context: Context = Context.Empty,
+    ) : Action
 
     companion object : Type<TargetTemperature> {
         private val MIN_TARGET_TEMPERATURE = 5.celsius
