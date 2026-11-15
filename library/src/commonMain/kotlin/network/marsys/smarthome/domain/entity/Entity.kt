@@ -32,7 +32,7 @@ sealed interface Entity {
     }
 
     interface Action {
-        val identifier: EntityIdentifier
+        val entity: EntityIdentifier
     }
 
     /*

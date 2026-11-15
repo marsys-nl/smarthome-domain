@@ -57,7 +57,7 @@ val WindowDetectionTest by testSuite(
 
     test(name = "Window detection capability on entity action is able to be created") {
         val action = WindowDetection.Toggle.On(
-            identifier = EntityIdentifier("thermostat.test"),
+            entity = EntityIdentifier("thermostat.test"),
         )
 
         expectThat(action)
@@ -66,7 +66,7 @@ val WindowDetectionTest by testSuite(
 
     test(name = "Window detection capability off entity action is able to be created") {
         val action = WindowDetection.Toggle.Off(
-            identifier = EntityIdentifier("thermostat.test"),
+            entity = EntityIdentifier("thermostat.test"),
         )
 
         expectThat(action)

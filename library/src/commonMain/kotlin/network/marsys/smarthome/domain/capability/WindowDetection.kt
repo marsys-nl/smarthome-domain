@@ -16,13 +16,15 @@ data class WindowDetection(
             context = context,
         )
 
-    sealed interface Toggle : Entity.Action {
+    sealed interface Toggle : Action {
         data class On(
-            override val identifier: EntityIdentifier,
+            override val entity: EntityIdentifier,
+            override val context: Context = Context.Empty,
         ) : Toggle
 
         data class Off(
-            override val identifier: EntityIdentifier,
+            override val entity: EntityIdentifier,
+            override val context: Context = Context.Empty,
         ) : Toggle
     }
 

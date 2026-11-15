@@ -56,7 +56,7 @@ val BrightnessTest by testSuite(
 
     test(name = "Set brightness entity action is able to be created") {
         val action = Brightness.SetBrightness(
-            identifier = EntityIdentifier("light.test"),
+            entity = EntityIdentifier("light.test"),
             brightness = 50.percent,
         )
 
