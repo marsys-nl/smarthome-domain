@@ -42,9 +42,10 @@ mavenPublishing {
     )
 
     pom {
-        name.set("Smarthome - Domain")
-        description.set("Domain related definitions for the Smarthome ecosystem. Including value objects, identifiers and such.")
+        name.set("SmartHome - Domain")
+        description.set("Domain related definitions for the SmartHome ecosystem. Including value objects, identifiers and such.")
         inceptionYear.set("2025")
+        url.set("https://github.com/marsys-nl/smarthome-domain")
 
         organization {
             name.set("Marsys")
